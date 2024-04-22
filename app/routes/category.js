@@ -10,6 +10,4 @@ router.post("/updateCategory", category.updateCategory);
 router.post("/categoryList", category.categoryList);
 router.post("/getCategoryData", category.getCategoryData);
 
-router.post("/categorys", category.categorys);
-
 module.exports = router;

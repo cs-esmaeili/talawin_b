@@ -1,6 +1,5 @@
 const Category = require('../database/models/Category');
 const Post = require('../database/models/Post');
-const FirtPage = require('../database/models/FirtPage');
 const { mCreateCategory, mDeleteCategory, mUpdateCategory } = require('../messages/response.json');
 const { mData } = require('../messages/response.json');
 
@@ -68,19 +67,5 @@ exports.getCategoryData = async (req, res, next) => {
         res.send({ category, postsCount, posts });
     } catch (err) {
         res.status(err.statusCode || 422).json(err.errors || err.message);
-    }
-}
-
-
-exports.categorys = async (req, res, next) => {
-    const chosenCategorys = await FirtPage.findOne({ location: 0 }).populate({
-        path: 'data',
-        model: 'Category',
-    });;
-
-    if (chosenCategorys) {
-        res.send(chosenCategorys.data);
-    } else {
-        res.status(422).json({ message: mData.fail });
     }
 }
