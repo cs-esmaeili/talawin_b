@@ -1,0 +1,130 @@
+{
+    "/dashboard": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/dashboard/filemanager": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/dashboard/category": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/dashboard/post/createPost": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/dashboard/post/postList": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/dashboard/role": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/dashboard/user": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/user/registerPure": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/user/updateRegisterPure": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/user/userList": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/role/roleList": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/role/createRole": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/role/deleteRole": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/role/updateRole": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/permission/togglePermission": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/category/createCategory": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/category/deleteCategory": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/category/updateCategory": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/category/categoryList": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/post/postList": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/post/postSerach": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/post/createPost": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/post/updatePost": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/post/deletePost": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/file/saveFile": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/file/deleteFolder": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/file/deleteFile": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/file/folderFileList": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/file/createFolder": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/file/rename": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/user/userPermissions": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/site/updateFirstPage": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    }
+}
