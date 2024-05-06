@@ -126,5 +126,9 @@
     "/site/updateFirstPage": {
         "name": "Role List", 
         "disc": "This is Permission is need for get Roles "
+    },
+    "/product/productList": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
     }
 }

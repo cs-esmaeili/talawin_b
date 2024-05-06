@@ -9,6 +9,7 @@ const file = require("./app/routes/file");
 const post = require("./app/routes/post");
 const role = require("./app/routes/role");
 const user = require("./app/routes/user");
+const product = require("./app/routes/product");
 const { logInStepOne } = require("./app/controllers/user");
 const { logInStepTwo } = require("./app/controllers/user");
 const permission = require("./app/routes/permission");
@@ -47,6 +48,7 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
   app.use("/category", category);
   app.use("/post", post);
   app.use("/file", file);
+  app.use("/product", product);
 
   //* 404 Page
   // app.use(require("./controllers/errorController").get404);
