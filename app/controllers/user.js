@@ -11,7 +11,7 @@ exports.logInStepOne = async (req, res, next) => {
     try {
         const { userName } = await req.body;
         let user = await User.findOne({ userName });
-
+        // let test = await User.userPermissions(user._id);
         if (!user) {
             user = await User.createNormalUser(userName);
         }
@@ -55,7 +55,7 @@ exports.logInStepTwo = async (req, res, next) => {
         const verifyCodeDelete = await VerifyCode.deleteOne({ user_id: user._id }).lean();
 
 
-        res.json({ message: mlogInStepTwo.ok, token, sessionTime: process.env.USERS_SESSIONS_TIME });
+        res.json({ message: mlogInStepTwo.ok, token, sessionTime: process.env.USERS_SESSIONS_TIME, user: user.data, role: user.role_id.name });
     } catch (err) {
         res.status(err.statusCode || 422).json(err);
     }
