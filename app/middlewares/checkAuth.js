@@ -8,17 +8,12 @@ const Permission = require('./../database/models/Permission');
 const passRoutes = [
     '/logInStepOne',
     '/logInStepTwo',
-    '/site/firstPage',
-    '/category/categorys',
-    '/category/getCategoryData',
-    '/post/getPost',
 ];
 
 exports.checkRoutePermission = async (req, res, next) => {
     try {
         const authHeader = req.headers['authorization'];
         const currentRoute = req.path;
-        // console.log(currentRoute);
         if (passRoutes.includes(currentRoute)) {
             next();
             return;

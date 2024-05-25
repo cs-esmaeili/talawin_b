@@ -5,8 +5,15 @@ const password = encodeURIComponent(process.env.DB_PASSWORD);
 const host = encodeURIComponent(process.env.HOST);
 const port = encodeURIComponent(process.env.DATABASE_PORT);
 const database = encodeURIComponent(process.env.DB_DATABASE);
+const onLocal = encodeURIComponent(process.env.ONLOCAL);
 
-const uri = `mongodb://${username}:${password}@${host}:${port}/${database}?authSource=admin&authMechanism=DEFAULT`;
+let uri = null;
+if (onLocal === 'true') {
+    uri = `mongodb://${username}:${password}@${host}:${port}/${database}?authSource=admin&authMechanism=DEFAULT`;
+} else {
+    uri = `mongodb://${username}:${password}@${host}:${port}/${database}`;
+}
+
 
 const connectDB = async (transaction) => {
     try {

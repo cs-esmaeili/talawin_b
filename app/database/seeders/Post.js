@@ -10,7 +10,7 @@ const seed = async (app) => {
     const categorys = await Category.find({});
     const user = (await User.find({}))[0];
 
-    for (let i = 0; i < 90; i++) {
+    for (let i = 0; i < 10; i++) {
         let category = categorys[(Math.floor(Math.random() * categorys.length))];
         if (i < 20) {
             category = categorys[0];

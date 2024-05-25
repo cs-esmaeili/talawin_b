@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { buildSchema } = require("./builder");
 
 
-const product = new mongoose.Schema({
+const ProductHistory = new mongoose.Schema({
     product_id: {
         type: mongoose.ObjectId,
         required: true,
@@ -15,18 +15,27 @@ const product = new mongoose.Schema({
     },
 });
 
+
 module.exports = mongoose.model("History", buildSchema({
     title: {
         type: String,
         required: true,
-        unique: true
     },
     disc: {
         type: String,
         required: true,
-        unique: true
     },
-    products: [product],
+    type: {
+        type: Number,
+        required: true,
+        default : 0,
+    },
+    user_id: {
+        type: mongoose.ObjectId,
+        required: true,
+        ref: 'User',
+    },
+    products: [ProductHistory],
     price: {
         type: Number,
         required: true,
