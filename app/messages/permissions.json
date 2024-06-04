@@ -3,6 +3,10 @@
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
     },
+    "/dashboard/product": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
     "/history/historyList": {
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "

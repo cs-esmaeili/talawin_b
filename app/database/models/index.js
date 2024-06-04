@@ -14,7 +14,7 @@ const migration = async () => {
       const model = require(path.join(__dirname, file));
       models.push(model);
     });
-  if (process.env.NODE_ENV === "development" && process.argv.includes('fresh')) {
+  if (process.argv.includes('fresh')) {
     models.map(async (model) => {
       try {
         await model.collection.drop();

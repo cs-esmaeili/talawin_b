@@ -15,21 +15,14 @@ const seed = async (app) => {
         token_id: result._id,
         userName: process.env.ADMIN_USERNAME,
         role_id: role[0]._id,
-        data:{
-            fullName : "جواد اسماعیلی",
+        data: {
+            fullName: "جواد اسماعیلی",
             image: {
-               blurHash,
+                blurHash,
                 url: process.env.BASE_URL + JSON.parse(process.env.STORAGE_LOCATION)[2] + "/1.jpg",
             },
         }
     });
-
-    // for (let index = 0; index < 60; index++) {
-    //     await User.create({
-    //         userName: "091373786" + index,
-    //         role_id: role[0]._id
-    //     });
-    // }
     await console.log(`${red(seqNumber)} : ${green('User seed done')}`);
 }
 

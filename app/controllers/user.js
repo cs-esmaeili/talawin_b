@@ -22,7 +22,6 @@ exports.logInStepOne = async (req, res, next) => {
         //     throw { message: mlogInStepOne.fail_1, statusCode: 422 };
         // }
         console.log(result.code);
-
         res.json({ message: mlogInStepOne.ok, expireTime: process.env.SMS_RESEND_DELAY });
     } catch (err) {
         console.log(err);

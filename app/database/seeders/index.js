@@ -3,7 +3,7 @@ const path = require('path');
 const basename = path.basename(__filename);
 let seeders = [];
 const seed = async (app) => {
-  if (process.env.NODE_ENV === "development" && process.argv.includes('fresh')) {
+  if (process.argv.includes('fresh')) {
     await fs
       .readdirSync(__dirname)
       .filter(file => {
