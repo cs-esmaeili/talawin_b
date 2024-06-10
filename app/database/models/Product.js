@@ -19,8 +19,13 @@ module.exports = mongoose.model("Product", buildSchema({
         min: 0,
         required: true,
     },
+    discount: {
+        type: Number,
+        min: 0,
+    },
     visible: {
         type: Boolean,
+        default: true,
     },
     apiPath: {
         type: String,
@@ -28,18 +33,4 @@ module.exports = mongoose.model("Product", buildSchema({
     formula: {
         type: String,
     },
-    discount: {
-        type: Number,
-        min: 0,
-    }
 }), 'Product');
-
-a = {
-    a: {
-        b: "",
-        c: "",
-        f: {
-            b: "javad"
-        }
-    }
-}
