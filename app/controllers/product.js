@@ -1,4 +1,17 @@
 const Product = require("../database/models/Product");
+const { goldPrice } = require('../requests/goldPrice');
+
+exports.getGoldPriceFromAPI = async (req, res, next) => {
+    try {
+        const { data } = await goldPrice();
+        global.apiData = data;
+        return true;
+    } catch (error) {
+        console.error(error);
+        console.error(red("Failed to get GoldPrice"));
+        return false;
+    }
+};
 
 exports.productList = async (req, res, next) => {
     try {

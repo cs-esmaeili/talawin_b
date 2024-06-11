@@ -15,11 +15,23 @@ const { logInStepOne } = require("./app/controllers/user");
 const { logInStepTwo } = require("./app/controllers/user");
 const permission = require("./app/routes/permission");
 const { config } = require("./app/utils/sms");
+const { goldPriceService } = require('./app/services/goldPrice');
 
 const { checkRoutePermission } = require("./app/middlewares/checkAuth");
 
 (async () => {
   const app = await express();
+  const http = require('http');
+  const server = http.createServer(app);
+
+  const { Server } = require("socket.io");
+
+  const io = new Server(server, {
+    cors: {
+      // origin: [process.env.PORT_UI, process.env.BASE_URL]
+       origin: "*"
+    }
+  });
 
   //SMS config
   config();
@@ -58,12 +70,19 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
   //* Database connection
   await connect(app);
 
+
   const PORT = process.env.PORT || 3000;
 
-  app.listen(PORT, () => {
-    console.log(
-      `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
-    )
+  server.listen(PORT, () => {
+    console.log(`Server running on port : ${PORT}`);
+    
+    goldPriceService();
+    
+    io.on('connection', async (socket) => {
+      global.io = io;
+      console.log('User connected with id: ' + socket.id);
+    });
+
   });
 
 })();
