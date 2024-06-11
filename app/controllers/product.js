@@ -4,7 +4,7 @@ const { goldPrice } = require('../requests/goldPrice');
 exports.getGoldPriceFromAPI = async (req, res, next) => {
     try {
         const { data } = await goldPrice();
-        global.apiData = data;
+        global.apiData = data.result;
         return true;
     } catch (error) {
         console.error(error);

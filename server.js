@@ -15,7 +15,7 @@ const { logInStepOne } = require("./app/controllers/user");
 const { logInStepTwo } = require("./app/controllers/user");
 const permission = require("./app/routes/permission");
 const { config } = require("./app/utils/sms");
-const { goldPriceService } = require('./app/services/goldPrice');
+const { goldPriceService, getProductPrices } = require('./app/services/goldPrice');
 
 const { checkRoutePermission } = require("./app/middlewares/checkAuth");
 
@@ -29,7 +29,7 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
   const io = new Server(server, {
     cors: {
       // origin: [process.env.PORT_UI, process.env.BASE_URL]
-       origin: "*"
+      origin: "*"
     }
   });
 
@@ -75,15 +75,26 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
 
   server.listen(PORT, () => {
     console.log(`Server running on port : ${PORT}`);
-    
+
     goldPriceService();
-    
+
     io.on('connection', async (socket) => {
       global.io = io;
       console.log('User connected with id: ' + socket.id);
+
+      socket.on('disconnect', () => {
+        console.log('User disconnected with id: ' + socket.id);
+      });
+
+      // const productPrices = await getProductPrices();
+      // const finalObject = {
+      //   apiData: global.apiData,
+      //   productPrices
+      // }
+      // io.to(socket.id).emit("data", finalObject);
+
     });
 
   });
-
 })();
 

@@ -1,7 +1,7 @@
 const { getGoldPriceFromAPI } = require('../controllers/product');
 const Product = require('../database/models/Product');
 
-const getProductPrices = async () => {
+exports.getProductPrices = async () => {
     const products = await Product.find({}).select(["_id", "price", "discount", "visible"]).lean();
     return products;
 }
