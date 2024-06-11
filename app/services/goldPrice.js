@@ -1,7 +1,7 @@
 const { getGoldPriceFromAPI } = require('../controllers/product');
 const Product = require('../database/models/Product');
 
-exports.getProductPrices = async () => {
+const getProductPrices = async () => {
     const products = await Product.find({}).select(["_id", "price", "discount", "visible"]).lean();
     return products;
 }
@@ -25,10 +25,7 @@ exports.goldPriceService = async () => {
     setInterval(async () => {
         await fetchGoldPrice();
         const productPrices = await getProductPrices();
-        const finalObject = {
-            apiData: global.apiData,
-            productPrices
-        }
-        global.io.emit("data", finalObject);
+        global.io.emit("apiData", global.apiData);
+        global.io.emit("productPrices", productPrices);
     }, delay);
 };

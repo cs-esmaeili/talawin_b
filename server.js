@@ -77,21 +77,16 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
     console.log(`Server running on port : ${PORT}`);
 
     goldPriceService();
+    global.io = io;
 
     io.on('connection', async (socket) => {
-      global.io = io;
       console.log('User connected with id: ' + socket.id);
 
       socket.on('disconnect', () => {
         console.log('User disconnected with id: ' + socket.id);
       });
 
-      // const productPrices = await getProductPrices();
-      // const finalObject = {
-      //   apiData: global.apiData,
-      //   productPrices
-      // }
-      // io.to(socket.id).emit("data", finalObject);
+      io.to(socket.id).emit("apiData",  global.apiData);
 
     });
 
