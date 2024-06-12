@@ -1,5 +1,6 @@
 const Product = require("../database/models/Product");
 const { goldPrice } = require('../requests/goldPrice');
+const { mCreateProduct } = require('../messages/response.json');
 
 exports.getGoldPriceFromAPI = async (req, res, next) => {
     try {
@@ -7,8 +8,7 @@ exports.getGoldPriceFromAPI = async (req, res, next) => {
         global.apiData = data.result;
         return true;
     } catch (error) {
-        console.error(error);
-        console.error(red("Failed to get GoldPrice"));
+        console.error("Failed to get GoldPrice");
         return false;
     }
 };
@@ -26,10 +26,19 @@ exports.productList = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
     try {
-        const { name, disc, image, price, discount, apiPath, formula, visible } = req.body;
-        console.log(name, disc, image, price, discount, apiPath, formula, visible);
-        res.send("ad");
+        const { name, disc, image, discount, apiPath, formula, visible } = req.body;
+        const result = await Product.create({ name, disc, image, price: 0, discount, apiPath, formula, visible });
+
+        if (result) {
+            res.send({ message: mCreateProduct.ok });
+            return;
+        }
+        throw { message: mCreateProduct.fail_1, statusCode: 500 };
     } catch (err) {
-        res.status(err.statusCode || 500).json(err);
+        if (err.code == 11000) {
+            res.status(406).json({ message: mCreateProduct.fail_2, statusCode: 406 });
+        } else {
+            res.status(err.statusCode || 500).json(err);
+        }
     }
 }
