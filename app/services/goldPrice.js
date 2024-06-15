@@ -1,29 +1,16 @@
-const { getGoldPriceFromAPI } = require('../controllers/product');
-const Product = require('../database/models/Product');
-
-const getProductPrices = async () => {
-    const products = await Product.find({}).select(["_id", "price", "discount", "visible"]).lean();
-    return products;
-}
+const { getGoldPriceFromAPI, updateAllProductPrices , getProductPrices } = require('../controllers/product');
 
 exports.goldPriceService = async () => {
-    console.log('goldPriceService started');
+    console.log('GoldPriceService started');
 
     const delay = 1000 * Number(process.env.GOLD_PRICE_SERVICE_DELAY);
 
-    const fetchGoldPrice = async () => {
-        const success = await getGoldPriceFromAPI();
-        if (success) {
-            // console.log('Gold price updated successfully');
-        } else {
-            console.log('Failed to update Gold price');
-        }
-    };
-
-    await fetchGoldPrice();
+    await getGoldPriceFromAPI();
 
     setInterval(async () => {
-        await fetchGoldPrice();
+        await getGoldPriceFromAPI();
+        await updateAllProductPrices();
+
         const productPrices = await getProductPrices();
         global.io.emit("apiData", global.apiData);
         global.io.emit("productPrices", productPrices);

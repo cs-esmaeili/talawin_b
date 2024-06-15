@@ -18,6 +18,7 @@ module.exports = mongoose.model("Product", buildSchema({
         type: Number,
         min: 0,
         required: true,
+        default: 0,
     },
     discount: {
         type: Number,

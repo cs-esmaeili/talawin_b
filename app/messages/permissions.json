@@ -11,6 +11,14 @@
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
     },
+    "/product/updateProduct": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/product/updateAllProductPrices": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
     "/product/createProduct": {
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
