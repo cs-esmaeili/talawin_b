@@ -7,6 +7,10 @@
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
     },
+    "/dashboard/admintradeportal": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
     "/history/historyList": {
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
@@ -56,6 +60,10 @@
         "disc": "This is Permission is need for get Roles "
     },
     "/user/updateRegisterPure": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/user/searchUser": {
         "name": "Role List", 
         "disc": "This is Permission is need for get Roles "
     },

@@ -8,5 +8,6 @@ router.post("/registerPure", user.registerPure);
 router.post("/updateRegisterPure", user.updateRegisterPure);
 router.post("/userList", user.userList);
 router.post("/userPermissions", user.userPermissions);
+router.post("/searchUser", user.searchUser);
 
 module.exports = router;

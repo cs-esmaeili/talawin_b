@@ -5,7 +5,7 @@ const VerifyCode = require("../database/models/VerifyCode");
 const { SendVerifyCodeSms } = require("../utils/sms");
 const { checkDelayTime } = require("../utils/checkTime");
 const bcrypt = require('bcryptjs');
-const { mlogInStepOne, mlogInStepTwo, mRegister, registerPure, updateRegisterPure } = require('../messages/response.json');
+const { mlogInStepOne, mlogInStepTwo, mRegister, registerPure, updateRegisterPure, mSearchUser } = require('../messages/response.json');
 
 exports.logInStepOne = async (req, res, next) => {
     try {
@@ -127,6 +127,32 @@ exports.updateRegisterPure = async (req, res, next) => {
             data
         });
         res.json({ message: updateRegisterPure.ok });
+    } catch (err) {
+        res.status(err.statusCode || 422).json(err);
+    }
+}
+
+exports.searchUser = async (req, res, next) => {
+    try {
+        const { phoneNumber = "", name = "" } = await req.body;
+
+        const orConditions = [{ "userName": phoneNumber }];
+
+        if (name) {
+            orConditions.push(
+                { "data.fullName": name },
+                { "data.fullName": { $regex: `.*${name}.*`, $options: "i" } }
+            );
+        }
+
+        const result = await User.find({
+            $or: orConditions
+        });
+
+        if (result.length <= 0) {
+            throw { message: mSearchUser.fail, statusCode: 422 };
+        }
+        res.send(result);
     } catch (err) {
         res.status(err.statusCode || 422).json(err);
     }
