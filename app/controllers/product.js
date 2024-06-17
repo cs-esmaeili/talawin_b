@@ -1,7 +1,7 @@
 const Product = require("../database/models/Product");
 const { goldPrice } = require('../requests/goldPrice');
 const { getObjectByKey, performCalculations } = require('../utils/productPrice');
-const { mCreateProduct, mUpdateProduct } = require('../messages/response.json');
+const { mCreateProduct, mUpdateProduct, mSearchProduct } = require('../messages/response.json');
 
 exports.getGoldPriceFromAPI = async (req, res, next) => {
     try {
@@ -90,4 +90,19 @@ exports.updateAllProductPrices = async () => {
 exports.getProductPrices = async () => {
     const products = await Product.find({}).select(["_id", "price", "discount", "visible"]).lean();
     return products;
+}
+
+
+exports.searchProduct = async (req, res, next) => {
+    try {
+        const { name } = await req.body;
+        const result = await Product.find({ "name": { $regex: `.*${name}.*`, $options: "i" } });
+
+        if (result.length <= 0) {
+            throw { message: mSearchProduct.fail, statusCode: 422 };
+        }
+        res.send(result);
+    } catch (err) {
+        res.status(err.statusCode || 422).json(err);
+    }
 }

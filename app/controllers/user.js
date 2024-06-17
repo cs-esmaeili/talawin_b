@@ -135,7 +135,6 @@ exports.updateRegisterPure = async (req, res, next) => {
 exports.searchUser = async (req, res, next) => {
     try {
         const { phoneNumber = "", name = "" } = await req.body;
-
         const orConditions = [{ "userName": phoneNumber }];
 
         if (name) {
