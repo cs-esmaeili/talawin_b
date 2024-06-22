@@ -9,5 +9,6 @@ router.post("/updateRegisterPure", user.updateRegisterPure);
 router.post("/userList", user.userList);
 router.post("/userPermissions", user.userPermissions);
 router.post("/searchUser", user.searchUser);
+router.post("/buyProducts", user.buyProducts);
 
 module.exports = router;

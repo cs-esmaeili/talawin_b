@@ -1,7 +1,15 @@
 const mongoose = require("mongoose");
-const { utcToMiladi } = require("../../utils/TimeConverter");
+const { utcToJalali, utcToMiladi } = require("../../utils/TimeConverter");
 const { getObjectByKey, performCalculations } = require('../../utils/productPrice');
+const userMiladiTime = encodeURIComponent(process.env.USE_MILADI_TIME);
 
+const converTime = (time) => {
+    if (userMiladiTime === 'true') {
+        return utcToMiladi(time);
+    } else {
+        return utcToJalali(time);
+    }
+}
 function addTimestampsToObject(obj) {
     obj.createdAt = {
         type: mongoose.Schema.Types.Mixed
@@ -9,7 +17,7 @@ function addTimestampsToObject(obj) {
     obj.updatedAt = {
         type: mongoose.Schema.Types.Mixed,
         set: function () {
-            return utcToMiladi(new Date());
+            return converTime(new Date());
         }
     };
 }
@@ -34,7 +42,7 @@ exports.buildSchema = (schemaObject) => {
     const schema = new mongoose.Schema(schemaObject, { timestamps: true });
 
     const middleware = function (next) {
-        const currentDate = utcToMiladi(new Date());
+        const currentDate = converTime(new Date());
 
         this.createdAt = currentDate;
         this.updatedAt = currentDate;

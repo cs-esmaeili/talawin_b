@@ -1,10 +1,12 @@
 const { createToken, createVerifyCode } = require("../utils/token");
 const User = require("../database/models/User");
 const Role = require("../database/models/Role");
+const History = require("../database/models/History");
 const VerifyCode = require("../database/models/VerifyCode");
 const { SendVerifyCodeSms } = require("../utils/sms");
 const { checkDelayTime } = require("../utils/checkTime");
 const bcrypt = require('bcryptjs');
+
 const { mlogInStepOne, mlogInStepTwo, mRegister, registerPure, updateRegisterPure, mSearchUser } = require('../messages/response.json');
 
 exports.logInStepOne = async (req, res, next) => {
@@ -152,6 +154,17 @@ exports.searchUser = async (req, res, next) => {
             throw { message: mSearchUser.fail, statusCode: 422 };
         }
         res.send(result);
+    } catch (err) {
+        res.status(err.statusCode || 422).json(err);
+    }
+}
+
+exports.buyProducts = async (req, res, next) => {
+    try {
+        const { time, cardPrice, selectedProducts, delivered } = await req.body;
+
+
+        console.log(time, cardPrice, selectedProducts);
     } catch (err) {
         res.status(err.statusCode || 422).json(err);
     }
