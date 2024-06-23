@@ -5,6 +5,7 @@ const History = require("../database/models/History");
 const VerifyCode = require("../database/models/VerifyCode");
 const { SendVerifyCodeSms } = require("../utils/sms");
 const { checkDelayTime } = require("../utils/checkTime");
+const { convertPersianNumberToEnglish } = require("../utils/general");
 const bcrypt = require('bcryptjs');
 
 const { mlogInStepOne, mlogInStepTwo, mRegister, registerPure, updateRegisterPure, mSearchUser } = require('../messages/response.json');
@@ -163,9 +164,28 @@ exports.buyProducts = async (req, res, next) => {
     try {
         const { time, cardPrice, selectedProducts, delivered } = await req.body;
 
+        console.log(selectedProducts);
+        const transformedProducts = selectedProducts.map(product => {
+            return {
+                product_id: product._id,
+                price: product.price,
+                count: product.count
+            };
+        });
 
-        console.log(time, cardPrice, selectedProducts);
+        const result = await History.create({
+            title: "خرید",
+            disc: "خرید طلا",
+            type: 1,
+            user_id: req.body.user._id,
+            price: cardPrice,
+            products: transformedProducts,
+            targetTime: convertPersianNumberToEnglish(time),
+        });
+
+        console.log(result);
     } catch (err) {
+        console.log(err);
         res.status(err.statusCode || 422).json(err);
     }
 }

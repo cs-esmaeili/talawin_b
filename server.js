@@ -15,7 +15,9 @@ const { logInStepOne } = require("./app/controllers/user");
 const { logInStepTwo } = require("./app/controllers/user");
 const permission = require("./app/routes/permission");
 const { config } = require("./app/utils/sms");
-const { goldPriceService, getProductPrices } = require('./app/services/goldPrice');
+const { goldPriceService } = require('./app/services/goldPrice');
+const { getProductPrices } = require('./app/controllers/product');
+
 
 const { checkRoutePermission } = require("./app/middlewares/checkAuth");
 
@@ -86,7 +88,9 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
         console.log('User disconnected with id: ' + socket.id);
       });
 
-      io.to(socket.id).emit("apiData",  global.apiData);
+      io.to(socket.id).emit("apiData", global.apiData);
+      const productPrices = await getProductPrices();
+      io.to(socket.id).emit("productPrices", productPrices);
 
     });
 

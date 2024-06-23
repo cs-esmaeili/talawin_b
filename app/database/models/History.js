@@ -13,6 +13,11 @@ const ProductHistory = new mongoose.Schema({
         required: true,
         min: 0,
     },
+    count: {
+        type: Number,
+        required: true,
+        min: 1,
+    },
 });
 
 
@@ -28,17 +33,21 @@ module.exports = mongoose.model("History", buildSchema({
     type: {
         type: Number,
         required: true,
-        default : 0,
+        default: 0,
     },
     user_id: {
         type: mongoose.ObjectId,
         required: true,
         ref: 'User',
     },
-    products: [ProductHistory],
     price: {
         type: Number,
         required: true,
         min: 0,
     },
+    targetTime: {
+        type: mongoose.Schema.Types.Mixed,
+        required: true,
+    },
+    products: [ProductHistory],
 }), 'History');

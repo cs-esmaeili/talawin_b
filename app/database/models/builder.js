@@ -10,6 +10,7 @@ const converTime = (time) => {
         return utcToJalali(time);
     }
 }
+
 function addTimestampsToObject(obj) {
     obj.createdAt = {
         type: mongoose.Schema.Types.Mixed
@@ -24,7 +25,7 @@ function addTimestampsToObject(obj) {
 
 function priceCalculations(doc) {
     try {
-        if (('price' in doc || 'discount' in doc) && global.apiData) {
+        if (('price' in doc || 'discount' in doc) && 'apiData' in doc && global.apiData) {
             if (doc.discount == "" || doc.discount == null) {
                 doc.discount = 0;
             }
