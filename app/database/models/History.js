@@ -18,7 +18,7 @@ const ProductHistory = new mongoose.Schema({
         required: true,
         min: 1,
     },
-});
+}, { _id: false });
 
 
 module.exports = mongoose.model("History", buildSchema({

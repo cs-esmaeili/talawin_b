@@ -25,7 +25,7 @@ exports.transaction = async (querys) => {
     } catch (error) {
         // Handle any errors
 
-        console.error('Error in transaction:', error);
+        // console.error('Error in transaction:', error);
 
         // Rollback the transaction
         await session.abortTransaction();

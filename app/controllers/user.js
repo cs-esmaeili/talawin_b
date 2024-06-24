@@ -1,14 +1,16 @@
 const { createToken, createVerifyCode } = require("../utils/token");
 const User = require("../database/models/User");
 const Role = require("../database/models/Role");
+const Box = require("../database/models/Box");
 const History = require("../database/models/History");
 const VerifyCode = require("../database/models/VerifyCode");
 const { SendVerifyCodeSms } = require("../utils/sms");
 const { checkDelayTime } = require("../utils/checkTime");
 const { convertPersianNumberToEnglish } = require("../utils/general");
+const { transaction } = require('../database');
 const bcrypt = require('bcryptjs');
 
-const { mlogInStepOne, mlogInStepTwo, mRegister, registerPure, updateRegisterPure, mSearchUser } = require('../messages/response.json');
+const { mlogInStepOne, mlogInStepTwo, mRegister, registerPure, updateRegisterPure, mSearchUser, mBuyProducts } = require('../messages/response.json');
 
 exports.logInStepOne = async (req, res, next) => {
     try {
@@ -161,10 +163,10 @@ exports.searchUser = async (req, res, next) => {
 }
 
 exports.buyProducts = async (req, res, next) => {
-    try {
-        const { time, cardPrice, selectedProducts, delivered } = await req.body;
 
-        console.log(selectedProducts);
+    const result = await transaction(async () => {
+        const { user_id, time, cardPrice, selectedProducts, delivered } = req.body;
+
         const transformedProducts = selectedProducts.map(product => {
             return {
                 product_id: product._id,
@@ -173,19 +175,46 @@ exports.buyProducts = async (req, res, next) => {
             };
         });
 
-        const result = await History.create({
+        await History.create({
             title: "خرید",
             disc: "خرید طلا",
             type: 1,
-            user_id: req.body.user._id,
+            user_id,
             price: cardPrice,
             products: transformedProducts,
             targetTime: convertPersianNumberToEnglish(time),
         });
 
-        console.log(result);
-    } catch (err) {
-        console.log(err);
-        res.status(err.statusCode || 422).json(err);
+        if (delivered) {
+            return true;
+        }
+
+        const transformedProductsR = selectedProducts.map(product => {
+            return {
+                product_id: product._id,
+                count: product.count
+            };
+        });
+
+        const haveBox = await Box.findOne({ user_id });
+
+        if (haveBox) {
+            let prevBoxProducts = haveBox.products;
+
+            const mergedArray = prevBoxProducts.concat(transformedProductsR);
+
+            await Box.updateOne({ user_id }, { user_id, products: mergedArray });
+        } else {
+            await Box.create({ user_id, products: transformedProductsR });
+        }
+
+        return true;
+    });
+
+
+    if (result === true) {
+        res.send({ message: mBuyProducts.ok });
+    } else {
+        res.status(result.statusCode || 422).json({ message: mBuyProducts.fail });
     }
 }

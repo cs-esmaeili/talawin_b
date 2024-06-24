@@ -23,33 +23,33 @@ const seed = async (app) => {
     const currentDate = converTime(new Date());
 
     let products = [];
-    productList.forEach(async product => {
-        let pHistory = {
-            product_id: product._id,
-            price: 200000000,
-            count: 1,
-        };
-        products.push(pHistory);
-    });
+    // productList.forEach(async product => {
+    //     let pHistory = {
+    //         product_id: product._id,
+    //         price: 200000000,
+    //         count: 1,
+    //     };
+    //     products.push(pHistory);
+    // });
 
-    await History.create({
-        title: "خرید انجام شد",
-        disc: "خرید طلا 18 عیار",
-        price: 300000000,
-        user_id: user._id,
-        type: 1,
-        products,
-        targetTime: currentDate,
-    });
+    // await History.create({
+    //     title: "خرید انجام شد",
+    //     disc: "خرید طلا 18 عیار",
+    //     price: 300000000,
+    //     user_id: user._id,
+    //     type: 1,
+    //     products,
+    //     targetTime: currentDate,
+    // });
 
-    await History.create({
-        title: "خرید انجام شد",
-        disc: "خرید طلا 18 عیار",
-        price: 300000000,
-        user_id: user._id,
-        products,
-        targetTime: currentDate,
-    });
+    // await History.create({
+    //     title: "خرید انجام شد",
+    //     disc: "خرید طلا 18 عیار",
+    //     price: 300000000,
+    //     user_id: user._id,
+    //     products,
+    //     targetTime: currentDate,
+    // });
 
     await console.log(`${red(seqNumber)} : ${green('History seed done')}`);
 }
