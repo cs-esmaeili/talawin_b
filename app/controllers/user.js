@@ -10,7 +10,7 @@ const { convertPersianNumberToEnglish } = require("../utils/general");
 const { transaction } = require('../database');
 const bcrypt = require('bcryptjs');
 
-const { mlogInStepOne, mlogInStepTwo, mRegister, registerPure, updateRegisterPure, mSearchUser, mBuyProducts } = require('../messages/response.json');
+const { mlogInStepOne, mlogInStepTwo, mRegister, registerPure, updateRegisterPure, mSearchUser, mBuyProducts, mSellProducts } = require('../messages/response.json');
 
 exports.logInStepOne = async (req, res, next) => {
     try {
@@ -216,5 +216,41 @@ exports.buyProducts = async (req, res, next) => {
         res.send({ message: mBuyProducts.ok });
     } else {
         res.status(result.statusCode || 422).json({ message: mBuyProducts.fail });
+    }
+}
+
+exports.sellProducts = async (req, res, next) => {
+
+    const result = await transaction(async () => {
+
+            const { user_id, time, cardPrice, selectedProducts } = req.body;
+
+            const transformedProducts = selectedProducts.map(product => {
+                return {
+                    product_id: product._id,
+                    price: product.price,
+                    count: product.count
+                };
+            });
+
+            await History.create({
+                title: "فروش",
+                disc: "فروش طلا",
+                type: 2,
+                user_id,
+                price: cardPrice,
+                products: transformedProducts,
+                targetTime: convertPersianNumberToEnglish(time),
+            });
+
+        return true;
+    });
+
+    console.log(result);
+
+    if (result === true) {
+        res.send({ message: mSellProducts.ok });
+    } else {
+        res.status(result.statusCode || 422).json({ message: mSellProducts.fail });
     }
 }

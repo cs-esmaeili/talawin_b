@@ -10,5 +10,6 @@ router.post("/userList", user.userList);
 router.post("/userPermissions", user.userPermissions);
 router.post("/searchUser", user.searchUser);
 router.post("/buyProducts", user.buyProducts);
+router.post("/sellProducts", user.sellProducts);
 
 module.exports = router;
