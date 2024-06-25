@@ -11,5 +11,7 @@ router.post("/userPermissions", user.userPermissions);
 router.post("/searchUser", user.searchUser);
 router.post("/buyProducts", user.buyProducts);
 router.post("/sellProducts", user.sellProducts);
+router.post("/boxProducts", user.boxProducts);
+router.post("/sellBoxProducts", user.sellBoxProducts);
 
 module.exports = router;

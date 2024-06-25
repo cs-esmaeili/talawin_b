@@ -67,6 +67,14 @@
         "name": "Role List", 
         "disc": "This is Permission is need for get Roles "
     },
+    "/user/boxProducts": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
+    "/user/sellBoxProducts": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
     "/user/sellProducts": {
         "name": "Role List", 
         "disc": "This is Permission is need for get Roles "

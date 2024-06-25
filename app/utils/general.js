@@ -6,3 +6,54 @@ exports.convertPersianNumberToEnglish = (input) => {
         return englishNumbers[persianNumbers.indexOf(char)];
     });
 }
+
+
+exports.updateProductCount = (a, b, add) => {
+
+    let list = [];
+
+    a.forEach(item => {
+
+        const productIndex = list.findIndex(p => p.product_id == item.product_id);
+
+        if (productIndex != -1) {
+
+            const product = list[productIndex];
+            product.count = add ? product.count + item.count : product.count - item.count;
+
+            console.log("product = " + product);
+
+            if (product.count <= 0) {
+                list.splice(productIndex, 1);
+            }
+        } else {
+            list.push(item);
+        }
+
+    });
+
+    b.forEach(item => {
+
+        const productIndex = list.findIndex(p => p.product_id == item.product_id);
+
+        if (productIndex != -1) {
+
+            const product = list[productIndex];
+            product.count = add ? product.count + item.count : product.count - item.count;
+
+            console.log("product = " + product);
+
+            if (product.count <= 0) {
+                list.splice(productIndex, 1);
+            }
+        } else {
+            list.push(item);
+        }
+
+    });
+
+
+    return list;
+
+}
+

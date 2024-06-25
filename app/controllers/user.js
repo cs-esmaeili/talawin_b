@@ -6,7 +6,7 @@ const History = require("../database/models/History");
 const VerifyCode = require("../database/models/VerifyCode");
 const { SendVerifyCodeSms } = require("../utils/sms");
 const { checkDelayTime } = require("../utils/checkTime");
-const { convertPersianNumberToEnglish } = require("../utils/general");
+const { convertPersianNumberToEnglish, updateProductCount } = require("../utils/general");
 const { transaction } = require('../database');
 const bcrypt = require('bcryptjs');
 
@@ -201,7 +201,7 @@ exports.buyProducts = async (req, res, next) => {
         if (haveBox) {
             let prevBoxProducts = haveBox.products;
 
-            const mergedArray = prevBoxProducts.concat(transformedProductsR);
+            const mergedArray = updateProductCount(prevBoxProducts, transformedProductsR , true);
 
             await Box.updateOne({ user_id }, { user_id, products: mergedArray });
         } else {
@@ -223,30 +223,112 @@ exports.sellProducts = async (req, res, next) => {
 
     const result = await transaction(async () => {
 
-            const { user_id, time, cardPrice, selectedProducts } = req.body;
+        const { user_id, time, cardPrice, selectedProducts } = req.body;
 
-            const transformedProducts = selectedProducts.map(product => {
-                return {
-                    product_id: product._id,
-                    price: product.price,
-                    count: product.count
-                };
-            });
+        const transformedProducts = selectedProducts.map(product => {
+            return {
+                product_id: product._id,
+                price: product.price,
+                count: product.count
+            };
+        });
 
-            await History.create({
-                title: "فروش",
-                disc: "فروش طلا",
-                type: 2,
-                user_id,
-                price: cardPrice,
-                products: transformedProducts,
-                targetTime: convertPersianNumberToEnglish(time),
-            });
+        await History.create({
+            title: "فروش",
+            disc: "فروش طلا",
+            type: 2,
+            user_id,
+            price: cardPrice,
+            products: transformedProducts,
+            targetTime: convertPersianNumberToEnglish(time),
+        });
 
         return true;
     });
 
     console.log(result);
+
+    if (result === true) {
+        res.send({ message: mSellProducts.ok });
+    } else {
+        res.status(result.statusCode || 422).json({ message: mSellProducts.fail });
+    }
+}
+
+
+exports.boxProducts = async (req, res, next) => {
+    try {
+        const { user_id } = await req.body;
+
+        const result = await Box.findOne({ user_id }).populate("products.product_id");
+
+        if (result == null || !result.products) {
+            throw { message: mlogInStepOne.fail_1, statusCode: 422 };//TODO
+        } else {
+            res.send(result.products);
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(err.statusCode || 422).json(err);
+    }
+}
+
+
+
+
+
+
+exports.sellBoxProducts = async (req, res, next) => {
+
+    const result = await transaction(async () => {
+
+        const { user_id, time, cardPrice, selectedProducts } = req.body;
+
+        const transformedProducts = selectedProducts.map(product => {
+            return {
+                product_id: product._id,
+                price: product.price,
+                count: product.count
+            };
+        });
+
+        await History.create({
+            title: "فروش",
+            disc: "فروش طلا از صندوق",
+            type: 3,
+            user_id,
+            price: cardPrice,
+            products: transformedProducts,
+            targetTime: convertPersianNumberToEnglish(time),
+        });
+
+
+        const productsToReducFromBox = selectedProducts.map(product => {
+            return {
+                product_id: product._id,
+                count: product.count
+            };
+        });
+
+        const haveBox = await Box.findOne({ user_id });
+
+        if (!haveBox) return false;
+
+        let boxProducts = haveBox.products;
+
+
+        const products = updateProductCount(boxProducts, productsToReducFromBox);
+
+        if (products == null || products.length == 0) {
+            await Box.deleteOne({ user_id });
+        } else {
+            await Box.updateOne({ user_id }, { user_id, products });
+        }
+
+
+        return true;
+    });
+
 
     if (result === true) {
         res.send({ message: mSellProducts.ok });
