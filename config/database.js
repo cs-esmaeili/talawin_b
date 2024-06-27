@@ -7,7 +7,7 @@ const port = encodeURIComponent(process.env.DATABASE_PORT);
 const database = encodeURIComponent(process.env.DB_DATABASE);
 const onLocal = encodeURIComponent(process.env.ONLOCAL);
 
-let uri = null;
+exports.uri = null;
 if (onLocal === 'true') {
     uri = `mongodb://${username}:${password}@${host}:${port}/${database}?authSource=admin&authMechanism=DEFAULT`;
 } else {

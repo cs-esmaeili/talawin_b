@@ -17,6 +17,7 @@ const permission = require("./app/routes/permission");
 const { config } = require("./app/utils/sms");
 const { goldPriceService } = require('./app/services/goldPrice');
 const { getProductPrices } = require('./app/controllers/product');
+const { backUpService } = require('./app/services/backUp');
 
 
 const { checkRoutePermission } = require("./app/middlewares/checkAuth");
@@ -72,13 +73,13 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
   //* Database connection
   await connect(app);
 
-
   const PORT = process.env.PORT || 3000;
 
   server.listen(PORT, () => {
     console.log(`Server running on port : ${PORT}`);
 
     goldPriceService();
+    backUpService();
     global.io = io;
 
     io.on('connection', async (socket) => {
