@@ -29,11 +29,19 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
 
   const { Server } = require("socket.io");
 
+  const allowedOrigins = [process.env.FRONTEND_URL, process.env.BASE_URL];
+
   const io = new Server(server, {
     cors: {
-      // origin: [process.env.PORT_UI, process.env.BASE_URL]
-      origin: "*"
-    }
+      origin: (origin, callback) => {
+
+        if (allowedOrigins.includes(origin + "/")) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      }
+    },
   });
 
   //SMS config
