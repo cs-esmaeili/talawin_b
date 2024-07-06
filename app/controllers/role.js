@@ -2,7 +2,7 @@ const Role = require('../database/models/Role');
 const Permission = require('../database/models/Permission');
 const User = require('../database/models/User');
 const { transaction } = require('../database');
-const { mCreateRole, mUpdateRole, mDeleteRole } = require('../messages/response.json');
+const { mCreateRole, mUpdateRole, mDeleteRole } = require('../static/response.json');
 
 exports.roleList = async (req, res, next) => {
     try {

@@ -1,7 +1,7 @@
 const VerifyCode = require('../database/models/VerifyCode');
 const { checkDelayTime } = require('./checkTime');
 const Token = require('../database/models/Token');
-const { mCreateVerifyCode } = require('../messages/response.json');
+const { mCreateVerifyCode } = require('../static/response.json');
 const bcrypt = require('bcryptjs');
 
 exports.createToken = async (unicData, token_id = null) => {

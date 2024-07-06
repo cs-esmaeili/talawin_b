@@ -4,11 +4,7 @@ const User = require('./../database/models/User');
 const Token = require('./../database/models/Token');
 const Role = require('./../database/models/Role');
 const Permission = require('./../database/models/Permission');
-
-const passRoutes = [
-    '/logInStepOne',
-    '/logInStepTwo',
-];
+const passRoutes = require('./../static/PassRouts.json');
 
 exports.checkRoutePermission = async (req, res, next) => {
     try {

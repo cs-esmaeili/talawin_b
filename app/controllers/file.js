@@ -3,7 +3,7 @@ const fs = require('fs');
 const BaseFileDir = path.join(process.cwd(), ...JSON.parse(process.env.STORAGE_LOCATION));
 const { v4: uuidv4 } = require('uuid');
 const { transaction } = require('../database');
-const { mSaveFile, mDeleteFile, mDeleteFolder, mFolderFileList, mCreateFolder, mRenameFolder, mRenameFile } = require('../messages/response.json');
+const { mSaveFile, mDeleteFile, mDeleteFolder, mFolderFileList, mCreateFolder, mRenameFolder, mRenameFile } = require('../static/response.json');
 const { getFilesFromFolder } = require('../utils/file');
 
 exports.saveFile = async (req, res, next) => {

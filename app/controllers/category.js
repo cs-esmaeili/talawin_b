@@ -1,7 +1,7 @@
 const Category = require('../database/models/Category');
 const Post = require('../database/models/Post');
-const { mCreateCategory, mDeleteCategory, mUpdateCategory } = require('../messages/response.json');
-const { mData } = require('../messages/response.json');
+const { mCreateCategory, mDeleteCategory, mUpdateCategory } = require('../static/response.json');
+const { mData } = require('../static/response.json');
 
 exports.createCategory = async (req, res, next) => {
     try {

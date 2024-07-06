@@ -1,7 +1,7 @@
 const Product = require("../database/models/Product");
 const { goldPrice } = require('../requests/goldPrice');
 const { getObjectByKey, performCalculations } = require('../utils/productPrice');
-const { mCreateProduct, mUpdateProduct, mSearchProduct } = require('../messages/response.json');
+const { mCreateProduct, mUpdateProduct, mSearchProduct } = require('../static/response.json');
 
 exports.getGoldPriceFromAPI = async (req, res, next) => {
     try {

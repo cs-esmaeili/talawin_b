@@ -5,7 +5,7 @@ const { green, red } = require('colors');
 const seqNumber = 7;
 const seed = async (app) => {
     const blurHash = await getImageBlurHash("1.jpg");
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 12; i++) {
         await Product.create({
             name: "Product Name " + i,
             disc: "Product disc " + i,

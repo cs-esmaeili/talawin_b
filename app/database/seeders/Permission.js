@@ -1,7 +1,7 @@
 const expressListEndpoints = require('express-list-endpoints');
 const Permission = require('../models/Permission');
 const { green, red, blue } = require('colors');
-const permissions = require('../../messages/permissions.json');
+const permissions = require('../../static/permissions.json');
 
 const seqNumber = 1;
 const seed = async (app) => {

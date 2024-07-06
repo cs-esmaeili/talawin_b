@@ -10,7 +10,7 @@ const { convertPersianNumberToEnglish, updateProductCount } = require("../utils/
 const { transaction } = require('../database');
 const bcrypt = require('bcryptjs');
 
-const { mlogInStepOne, mlogInStepTwo, mRegister, registerPure, updateRegisterPure, mSearchUser, mBuyProducts, mSellProducts } = require('../messages/response.json');
+const { mlogInStepOne, mlogInStepTwo, mRegister, registerPure, updateRegisterPure, mSearchUser, mBuyProducts, mSellProducts } = require('../static/response.json');
 
 exports.logInStepOne = async (req, res, next) => {
     try {

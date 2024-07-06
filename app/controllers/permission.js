@@ -1,5 +1,5 @@
 const Role = require('../database/models/Role');
-const { mTogglePermission } = require('../messages/response.json');
+const { mTogglePermission } = require('../static/response.json');
 
 
 exports.togglePermission = async (req, res, next) => {
