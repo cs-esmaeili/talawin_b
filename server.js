@@ -11,6 +11,7 @@ const role = require("./app/routes/role");
 const user = require("./app/routes/user");
 const product = require("./app/routes/product");
 const history = require("./app/routes/history");
+const apibox = require("./app/routes/apibox");
 const { logInStepOne } = require("./app/controllers/user");
 const { logInStepTwo } = require("./app/controllers/user");
 const permission = require("./app/routes/permission");
@@ -74,6 +75,7 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
   app.use("/file", file);
   app.use("/product", product);
   app.use("/history", history);
+  app.use("/apibox", apibox);
 
   //* 404 Page
   // app.use(require("./controllers/errorController").get404);
@@ -86,15 +88,15 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
   server.listen(PORT, () => {
     console.log(`Server running on port : ${PORT}`);
 
-    goldPriceService();
+    // goldPriceService();
     backUpService();
     global.io = io;
 
     io.on('connection', async (socket) => {
-      console.log('User connected with id: ' + socket.id);
+      // console.log('User connected with id: ' + socket.id);
 
       socket.on('disconnect', () => {
-        console.log('User disconnected with id: ' + socket.id);
+        // console.log('User disconnected with id: ' + socket.id);
       });
 
       io.to(socket.id).emit("apiData", global.apiData);

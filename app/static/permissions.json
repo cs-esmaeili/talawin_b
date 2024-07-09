@@ -7,6 +7,14 @@
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
     },
+    "/dashboard/apibox": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/apibox/apiBoxList": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
     "/dashboard/admintradeportal": {
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "

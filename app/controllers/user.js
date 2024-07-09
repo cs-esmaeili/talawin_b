@@ -21,12 +21,12 @@ exports.logInStepOne = async (req, res, next) => {
             user = await User.createNormalUser(userName);
         }
         const result = await createVerifyCode(user._id);
+        console.log(result.code);
+        // const sms = await SendVerifyCodeSms(userName, result.code);
+        // if (sms.data.status != 1) {
+        //     throw { message: mlogInStepOne.fail_1, statusCode: 422 };
+        // }
 
-        const sms = await SendVerifyCodeSms(userName, result.code);
-        if (sms.data.status != 1) {
-            throw { message: mlogInStepOne.fail_1, statusCode: 422 };
-        }
-        
         res.json({ message: mlogInStepOne.ok, expireTime: process.env.SMS_RESEND_DELAY });
     } catch (err) {
         console.log(err);
@@ -201,7 +201,7 @@ exports.buyProducts = async (req, res, next) => {
         if (haveBox) {
             let prevBoxProducts = haveBox.products;
 
-            const mergedArray = updateProductCount(prevBoxProducts, transformedProductsR , true);
+            const mergedArray = updateProductCount(prevBoxProducts, transformedProductsR, true);
 
             await Box.updateOne({ user_id }, { user_id, products: mergedArray });
         } else {
