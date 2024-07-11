@@ -1,22 +1,46 @@
 const mongoose = require("mongoose");
 const { buildSchema } = require("./builder");
 
+
+
+
 module.exports = mongoose.model("ApiBox", buildSchema({
     name: {
         type: String,
         required: true,
         unique: true,
     },
-    price: {
+    apiPath: {
+        type: String,
+    },
+    buyPrice: {
         type: Number,
         min: 0,
         required: true,
         default: 0,
     },
-    apiPath: {
+    sellPrice: {
+        type: Number,
+        min: 0,
+        required: true,
+        default: 0,
+    },
+    cBuyPrice: {
+        type: Number,
+        min: 0,
+        required: true,
+        default: 0,
+    },
+    cSellPrice: {
+        type: Number,
+        min: 0,
+        required: true,
+        default: 0,
+    },
+    formulaBuy: {
         type: String,
     },
-    formula: {
+    formulaSell: {
         type: String,
     },
 }), 'ApiBox');

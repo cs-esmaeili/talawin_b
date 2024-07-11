@@ -1,6 +1,7 @@
 const Product = require("../database/models/Product");
+const ApiBox = require("../database/models/ApiBox");
 const { goldPrice } = require('../requests/goldPrice');
-const { getObjectByKey, performCalculations } = require('../utils/productPrice');
+const { performCalculations } = require('../utils/price');
 const { mCreateProduct, mUpdateProduct, mSearchProduct } = require('../static/response.json');
 
 exports.getGoldPriceFromAPI = async (req, res, next) => {
@@ -59,7 +60,6 @@ exports.updateProduct = async (req, res, next) => {
 }
 
 
-
 exports.updateAllProductPrices = async () => {
     const products = await Product.find({});
     const updatedProducts = [];
@@ -71,7 +71,9 @@ exports.updateAllProductPrices = async () => {
             continue;
         }
 
-        const apiPrice = getObjectByKey(global.apiData, "key", Number(product.apiPath)).price;
+        const apiBox = await ApiBox.findOne({ _id: product.apiBox_id });
+        const apiPrice = apiBox.price;
+
         const price = performCalculations(product, apiPrice);
 
         product.price = price;

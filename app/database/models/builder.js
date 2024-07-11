@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { utcToJalali, utcToMiladi } = require("../../utils/TimeConverter");
-const { getObjectByKey, performCalculations } = require('../../utils/productPrice');
+const { getObjectByKey, performCalculations } = require('../../utils/price');
 const userMiladiTime = encodeURIComponent(process.env.USE_MILADI_TIME);
 
 const converTime = (time) => {
