@@ -30,11 +30,16 @@ exports.calculateBoxPrice = (box) => {
         let buyPrice = 0;
         let sellPrice = 0;
 
-        if (!global.apiData || global.apiData == undefined || global.apiData == null || global.apiData.length == 0) {
+        if (global.apiData == false || global.apiData == undefined || global.apiData == null || global.apiData.length == 0) {
             return { buyPrice: cBuyPrice, sellPrice: cSellPrice }
         }
-        const apiPrice = (this.getObjectByKey(global.apiData, 'key', Number(apiPath))).price;
 
+        let apiPrice = this.getObjectByKey(global.apiData, 'key', Number(apiPath));
+
+        if (apiPrice == undefined || !apiPrice) {
+            return { buyPrice: cBuyPrice, sellPrice: cSellPrice }
+        }
+        apiPrice = apiPrice.price;
         buyPrice = calculateFormula(formulaBuy, apiPrice);
         sellPrice = calculateFormula(formulaSell, apiPrice);
 
@@ -56,23 +61,23 @@ exports.calculateProductPrice = (product, apiBox) => {
         const { cBuyPrice, cSellPrice, formulaBuy, formulaSell, discount } = product;
 
         if (cBuyPrice != 0 && cSellPrice != 0) {
-            return { buyPrice: (cBuyPrice - discount), sellPrice: (cSellPrice - discount) }
+            return { buyPrice: cBuyPrice, sellPrice: (cSellPrice - discount) }
         }
 
         let buyPrice = 0;
         let sellPrice = 0;
 
         if (!global.apiData || global.apiData == undefined || global.apiData == null || global.apiData.length == 0) {
-            return { buyPrice: (cBuyPrice - discount), sellPrice: (cSellPrice - discount) }
+            return { buyPrice: cBuyPrice, sellPrice: (cSellPrice - discount) }
         }
 
 
-        buyPrice = calculateFormula(formulaBuy, apiBox.buyPrice) - discount;
+        buyPrice = calculateFormula(formulaBuy, apiBox.buyPrice);
         sellPrice = calculateFormula(formulaSell, apiBox.sellPrice) - discount;
 
 
         if (cBuyPrice != 0) {
-            buyPrice = (cBuyPrice - discount);
+            buyPrice = cBuyPrice;
         }
         if (cSellPrice != 0) {
             sellPrice = (cSellPrice - discount);

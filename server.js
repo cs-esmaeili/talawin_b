@@ -18,6 +18,7 @@ const permission = require("./app/routes/permission");
 const { config } = require("./app/utils/sms");
 const { goldPriceService } = require('./app/services/goldPrice');
 const { getProductPrices } = require('./app/controllers/product');
+const { getBoxPrices } = require('./app/controllers/apibox');
 const { backUpService } = require('./app/services/backUp');
 
 
@@ -101,7 +102,9 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
 
       io.to(socket.id).emit("apiData", global.apiData);
       const productPrices = await getProductPrices();
+      const boxPrices = await getBoxPrices();
       io.to(socket.id).emit("productPrices", productPrices);
+      io.to(socket.id).emit("boxPrices", boxPrices);
 
     });
 

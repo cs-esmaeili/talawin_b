@@ -15,6 +15,10 @@
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
     },
+    "/apibox/updateApiBox": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
     "/apibox/addApiBox": {
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "

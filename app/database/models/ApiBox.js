@@ -39,8 +39,10 @@ module.exports = mongoose.model("ApiBox", buildSchema({
     },
     formulaBuy: {
         type: String,
+        default: "p"
     },
     formulaSell: {
         type: String,
+        default: "p"
     },
 }), 'ApiBox');

@@ -1,6 +1,6 @@
 const ApiBox = require('../database/models/ApiBox');
 const { calculateBoxPrice } = require('../utils/price');
-const { addApiBox } = require('../static/response.json');
+const { addApiBox, updatedApiBox } = require('../static/response.json');
 const { goldPrice } = require('../requests/goldPrice');
 
 exports.getGoldPriceFromAPI = async (req, res, next) => {
@@ -23,11 +23,45 @@ exports.apiBoxList = async (req, res, next) => {
     }
 }
 
+exports.updateApiBox = async (req, res, next) => {
+    try {
+        const { box_id, name, apiPath, cBuyPrice, cSellPrice, formulaBuy, formulaSell } = req.body;
+
+        const { buyPrice, sellPrice } = calculateBoxPrice({ apiPath, cBuyPrice, cSellPrice, formulaBuy, formulaSell });
+
+        let result = await ApiBox.findOneAndUpdate(
+            { _id: box_id },
+            {
+                name,
+                apiPath,
+                buyPrice,
+                sellPrice,
+                cBuyPrice,
+                cSellPrice,
+                formulaBuy,
+                formulaSell
+            });
+
+        if (result) {
+            res.send({ message: updatedApiBox.ok });
+            return;
+        }
+        throw { message: updatedApiBox.fail, statusCode: 401 };
+    } catch (err) {
+        console.log(err);
+        if (err.code == 11000) {
+            res.status(406).json({ message: addApiBox.fail, statusCode: 406 });
+        } else {
+            res.status(err.statusCode || 500).json(err);
+        }
+    }
+}
+
 exports.addApiBox = async (req, res, next) => {
     try {
         const { name, apiPath, cBuyPrice, cSellPrice, formulaBuy, formulaSell } = req.body;
 
-        const { buyPrice, sellPrice } = calculatePrice(apiPath, formulaBuy, formulaSell, cBuyPrice, cSellPrice);
+        const { buyPrice, sellPrice } = calculateBoxPrice({ apiPath, cBuyPrice, cSellPrice, formulaBuy, formulaSell });
 
         let result = await ApiBox.create({
             name,
@@ -39,7 +73,6 @@ exports.addApiBox = async (req, res, next) => {
             formulaBuy,
             formulaSell
         });
-
 
         if (result) {
             res.send({ message: addApiBox.ok });

@@ -51,9 +51,11 @@ module.exports = mongoose.model("Product", buildSchema({
     },
     formulaBuy: {
         type: String,
+        default: "p"
     },
     formulaSell: {
         type: String,
+        default: "p"
     },
     discount: {
         type: Number,
