@@ -1,17 +1,8 @@
 const Product = require("../database/models/Product");
-const ApiBox = require("../database/models/ApiBox");
-const { goldPrice } = require('../requests/goldPrice');
-const { performCalculations } = require('../utils/price');
+const { calculateProductPrice } = require('../utils/price');
 const { mCreateProduct, mUpdateProduct, mSearchProduct } = require('../static/response.json');
 
-exports.getGoldPriceFromAPI = async (req, res, next) => {
-    try {
-        const { data } = await goldPrice();
-        global.apiData = data.result;
-    } catch (error) {
-        console.error("Failed to get GoldPrice");
-    }
-};
+
 
 exports.productList = async (req, res, next) => {
     try {
@@ -61,27 +52,21 @@ exports.updateProduct = async (req, res, next) => {
 
 
 exports.updateAllProductPrices = async () => {
-    const products = await Product.find({});
-    const updatedProducts = [];
+    try {
+        const products = await Product.find({}).populate("apiBox_id").lean();
+        const updatedProducts = [];
 
-    for (let i = 0; i < products.length; i++) {
-        const product = products[i];
+        for (let i = 0; i < products.length; i++) {
 
-        if (product.apiPath == null || product.apiPath == "") {
-            continue;
+            const { buyPrice, sellPrice } = calculateProductPrice(products[i], products[i].apiBox_id);
+
+            products[i].buyPrice = buyPrice;
+            products[i].sellPrice = sellPrice;
+            updatedProducts.push(products[i]);
         }
 
-        const apiBox = await ApiBox.findOne({ _id: product.apiBox_id });
-        const apiPrice = apiBox.price;
-
-        const price = performCalculations(product, apiPrice);
-
-        product.price = price;
-        updatedProducts.push(product);
-    }
-    try {
         if (updatedProducts.length > 0) {
-            await Promise.all(updatedProducts.map(updatedPrice => Product.findByIdAndUpdate(updatedPrice._id, { price: updatedPrice.price })));
+            await Promise.all(updatedBoxs.map(updatedPrice => Product.findByIdAndUpdate(updatedPrice._id, { buyPrice: updatedPrice.buyPrice, sellPrice: updatedPrice.sellPrice })));
         }
     } catch (error) {
         console.error("Error updating products:", error);
@@ -90,7 +75,7 @@ exports.updateAllProductPrices = async () => {
 
 
 exports.getProductPrices = async () => {
-    const products = await Product.find({}).select(["_id", "price", "discount", "visible"]).lean();
+    const products = await Product.find({}).lean();
     return products;
 }
 

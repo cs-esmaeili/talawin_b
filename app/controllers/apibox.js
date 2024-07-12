@@ -1,6 +1,16 @@
 const ApiBox = require('../database/models/ApiBox');
-const { calculatePrice } = require('../utils/price');
+const { calculateBoxPrice } = require('../utils/price');
 const { addApiBox } = require('../static/response.json');
+const { goldPrice } = require('../requests/goldPrice');
+
+exports.getGoldPriceFromAPI = async (req, res, next) => {
+    try {
+        const { data } = await goldPrice();
+        global.apiData = data.result;
+    } catch (error) {
+        console.error("Failed to get GoldPrice");
+    }
+};
 
 exports.apiBoxList = async (req, res, next) => {
     try {
@@ -16,7 +26,7 @@ exports.apiBoxList = async (req, res, next) => {
 exports.addApiBox = async (req, res, next) => {
     try {
         const { name, apiPath, cBuyPrice, cSellPrice, formulaBuy, formulaSell } = req.body;
-   
+
         const { buyPrice, sellPrice } = calculatePrice(apiPath, formulaBuy, formulaSell, cBuyPrice, cSellPrice);
 
         let result = await ApiBox.create({
@@ -47,27 +57,32 @@ exports.addApiBox = async (req, res, next) => {
 }
 
 exports.updateAllBoxApi = async () => {
-    const boxs = await ApiBox.find({});
-    const updatedBoxs = [];
-
-    for (let i = 0; i < boxs.length; i++) {
-        const box = boxs[i];
-
-        if (box.apiPath == null || box.apiPath == "") {
-            continue;
-        }
-
-        const apiPrice = getObjectByKey(global.apiData, "key", Number(box.apiPath)).price;
-        const price = performCalculations(box, apiPrice);
-
-        box.price = price;
-        updatedBoxs.push(box);
-    }
     try {
+        const boxs = await ApiBox.find({});
+        const updatedBoxs = [];
+
+        for (let i = 0; i < boxs.length; i++) {
+            const { apiPath } = boxs[i];
+
+            if (apiPath == null || apiPath == "") {
+                continue;
+            }
+            const { buyPrice, sellPrice } = calculateBoxPrice(boxs[i]);
+
+            boxs[i].buyPrice = buyPrice;
+            boxs[i].sellPrice = sellPrice;
+            updatedBoxs.push(boxs[i]);
+        }
         if (updatedBoxs.length > 0) {
-            await Promise.all(updatedBoxs.map(updatedPrice => ApiBox.findByIdAndUpdate(updatedPrice._id, { price: updatedPrice.price })));
+            await Promise.all(updatedBoxs.map(updatedPrice => ApiBox.findByIdAndUpdate(updatedPrice._id, { buyPrice: updatedPrice.buyPrice, sellPrice: updatedPrice.sellPrice })));
         }
     } catch (error) {
         console.error("Error updating boxs:", error);
     }
 }
+
+exports.getBoxPrices = async () => {
+    const products = await ApiBox.find({}).lean();
+    return products;
+}
+

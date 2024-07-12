@@ -4,6 +4,11 @@ const { buildSchema } = require("./builder");
 
 
 module.exports = mongoose.model("Product", buildSchema({
+    apiBox_id: {
+        type: mongoose.ObjectId,
+        required: true,
+        ref: 'ApiBox',
+    },
     name: {
         type: String,
         required: true,
@@ -19,11 +24,6 @@ module.exports = mongoose.model("Product", buildSchema({
     visible: {
         type: Boolean,
         default: true,
-    },
-    apiBox_id: {
-        type: mongoose.ObjectId,
-        required: true,
-        ref: 'ApiBox',
     },
     buyPrice: {
         type: Number,
@@ -58,5 +58,7 @@ module.exports = mongoose.model("Product", buildSchema({
     discount: {
         type: Number,
         min: 0,
+        required: true,
+        default: 0,
     },
 }), 'Product');
