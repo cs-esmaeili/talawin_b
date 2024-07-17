@@ -1,13 +1,14 @@
 const Product = require("../database/models/Product");
 const { calculateProductPrice } = require('../utils/price');
 const { mCreateProduct, mUpdateProduct, mSearchProduct } = require('../static/response.json');
+const ApiBox = require("../database/models/ApiBox");
 
 
 
 exports.productList = async (req, res, next) => {
     try {
         const { page, perPage } = req.body;
-        let products = await Product.find({}).skip((page - 1) * perPage).limit(perPage).lean();
+        let products = await Product.find({}).skip((page - 1) * perPage).limit(perPage).populate("apiBox_id").lean();
         const productsCount = await Product.countDocuments({});
         res.send({ productsCount, products });
     } catch (err) {
@@ -17,8 +18,13 @@ exports.productList = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
     try {
-        const { name, disc, image, discount, apiPath, formula, visible } = req.body;
-        const result = await Product.create({ name, disc, image, discount, apiPath, formula, visible });
+        const { box_id, name, cBuyPrice, cSellPrice, formulaBuy, formulaSell, disc, image, discount, formula, visible } = req.body;
+        const apiBox = await ApiBox.findOne({ _id: box_id });
+
+        const { buyPrice, sellPrice } = calculateProductPrice({ cBuyPrice, cSellPrice, formulaBuy, formulaSell, discount }, apiBox);
+
+        const result = await Product.create({ apiBox_id: box_id, name, buyPrice, sellPrice, cBuyPrice, cSellPrice, formulaBuy, formulaSell, disc, image, discount, formula, visible });
+
 
         if (result) {
             res.send({ message: mCreateProduct.ok });
@@ -26,6 +32,7 @@ exports.createProduct = async (req, res, next) => {
         }
         throw { message: mCreateProduct.fail_1, statusCode: 500 };
     } catch (err) {
+        console.log(err);
         if (err.code == 11000) {
             res.status(406).json({ message: mCreateProduct.fail_2, statusCode: 406 });
         } else {
@@ -36,8 +43,10 @@ exports.createProduct = async (req, res, next) => {
 
 exports.updateProduct = async (req, res, next) => {
     try {
-        const { id, name, disc, image, discount, apiPath, formula, visible } = req.body;
-        const result = await Product.updateOne({ _id: id }, { name, disc, image, discount, apiPath, formula, visible });
+        const { id, box_id, name, cBuyPrice, cSellPrice, formulaBuy, formulaSell, disc, image, discount, formula, visible } = req.body;
+        const apiBox = await ApiBox.findOne({ _id: box_id });
+        const { buyPrice, sellPrice } = calculateProductPrice({ cBuyPrice, cSellPrice, formulaBuy, formulaSell, discount }, apiBox);
+        const result = await Product.updateOne({ _id: id }, { apiBox_id: box_id, name, buyPrice, sellPrice, cBuyPrice, cSellPrice, formulaBuy, formulaSell, disc, image, discount, formula, visible });
 
         if (result.modifiedCount == 1) {
             res.send({ message: mUpdateProduct.ok });
