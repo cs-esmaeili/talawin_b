@@ -10,29 +10,32 @@ const { convertPersianNumberToEnglish, updateProductCount } = require("../utils/
 const { transaction } = require('../database');
 const bcrypt = require('bcryptjs');
 
-const { mlogInStepOne, mlogInStepTwo, mRegister, registerPure, updateRegisterPure, mSearchUser, mBuyProducts, mSellProducts } = require('../static/response.json');
+const { mlogInStepOne, mlogInStepTwo, registerPure, updateRegisterPure, mSearchUser, mBuyProducts, mSellProducts } = require('../static/response.json');
 
 exports.logInStepOne = async (req, res, next) => {
     try {
         const { userName } = await req.body;
         let user = await User.findOne({ userName });
-        // let test = await User.userPermissions(user._id);
+
         if (!user) {
             user = await User.createNormalUser(userName);
         }
         const result = await createVerifyCode(user._id);
-        console.log(result.code);
-        // const sms = await SendVerifyCodeSms(userName, result.code);
-        // if (sms.data.status != 1) {
-        //     throw { message: mlogInStepOne.fail_1, statusCode: 422 };
-        // }
 
+        if (process.env.ONLOCAL === 'true') {
+            console.log(result.code);
+        } else {
+            const sms = await SendVerifyCodeSms(userName, result.code);
+            if (sms.data.status != 1) {
+                throw { message: mlogInStepOne.fail_1, statusCode: 422 };
+            }
+        }
+        
         res.json({ message: mlogInStepOne.ok, expireTime: process.env.SMS_RESEND_DELAY });
     } catch (err) {
         console.log(err);
         res.status(err.statusCode || 422).json(err);
     }
-
 }
 
 exports.logInStepTwo = async (req, res, next) => {

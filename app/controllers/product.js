@@ -3,8 +3,6 @@ const { calculateProductPrice } = require('../utils/price');
 const { mCreateProduct, mUpdateProduct, mSearchProduct } = require('../static/response.json');
 const ApiBox = require("../database/models/ApiBox");
 
-
-
 exports.productList = async (req, res, next) => {
     try {
         const { page, perPage } = req.body;
@@ -59,7 +57,6 @@ exports.updateProduct = async (req, res, next) => {
     }
 }
 
-
 exports.updateAllProductPrices = async () => {
     try {
         const products = await Product.find({}).populate("apiBox_id").lean();
@@ -82,12 +79,10 @@ exports.updateAllProductPrices = async () => {
     }
 }
 
-
 exports.getProductPrices = async () => {
     const products = await Product.find({}).populate("apiBox_id").lean();
     return products;
 }
-
 
 exports.searchProduct = async (req, res, next) => {
     try {

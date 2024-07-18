@@ -46,6 +46,8 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
     },
   });
 
+
+  
   //SMS config
   config();
 

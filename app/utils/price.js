@@ -68,7 +68,7 @@ exports.calculateProductPrice = (product, apiBox) => {
         let sellPrice = 0;
 
         if (!global.apiData || global.apiData == undefined || global.apiData == null || global.apiData.length == 0) {
-            return { buyPrice: cBuyPrice, sellPrice: (cSellPrice - discount) }
+            return { buyPrice, sellPrice }
         }
 
 
