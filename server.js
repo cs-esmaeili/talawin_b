@@ -16,6 +16,7 @@ const { logInStepOne } = require("./app/controllers/user");
 const { logInStepTwo } = require("./app/controllers/user");
 const permission = require("./app/routes/permission");
 const { config } = require("./app/utils/sms");
+const { getMainPartOfUrl } = require("./app/utils/general");
 const { goldPriceService } = require('./app/services/goldPrice');
 const { getProductPrices } = require('./app/controllers/product');
 const { getBoxPrices } = require('./app/controllers/apibox');
@@ -36,18 +37,26 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
   const io = new Server(server, {
     cors: {
       origin: (origin, callback) => {
-
-        if (allowedOrigins.includes(origin + "/")) {
-          callback(null, true);
-        } else {
+        try {
+          const baseUrl = getMainPartOfUrl(origin);
+          for (let i = 0; i < allowedOrigins.length; i++) {
+            const allowOrigin = allowedOrigins[i];
+            const baseOrigin = getMainPartOfUrl(allowOrigin);
+            if (baseOrigin == baseUrl) {
+              callback(null, true);
+              return;
+            }
+          }
           callback(new Error('Not allowed by CORS'));
+        } catch (error) {
+          console.log("error in origins : " + error);
         }
       }
     },
   });
 
 
-  
+
   //SMS config
   config();
 

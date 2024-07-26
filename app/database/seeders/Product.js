@@ -18,7 +18,7 @@ const seed = async (app) => {
             },
             buyPrice: 10000,
             sellPrice: 9000,
-            discount: 2000,
+            discount: (i % 2 == 0) ? 2000 : 0,
             formulaBuy: "p-10000",
             formulaSell: "p",
         });

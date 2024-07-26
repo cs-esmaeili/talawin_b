@@ -57,3 +57,16 @@ exports.updateProductCount = (a, b, add) => {
 
 }
 
+exports.getMainPartOfUrl = (url) => {
+    // Remove 'http://' or 'https://'
+    url = url.replace(/^https?:\/\//, '');
+
+    // Remove 'www.'
+    url = url.replace(/^www\./, '');
+    
+    url = url.replace('/', '');
+    // Remove domain suffix (e.g., '.com', '.ir') from the end
+    url = url.replace(/\.[a-z]{2,}$/i, '');
+
+    return url;
+}
