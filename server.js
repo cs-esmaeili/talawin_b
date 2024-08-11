@@ -18,10 +18,8 @@ const permission = require("./app/routes/permission");
 const { config } = require("./app/utils/sms");
 const { getMainPartOfUrl } = require("./app/utils/general");
 const { goldPriceService } = require('./app/services/goldPrice');
-const { getProductPrices } = require('./app/controllers/product');
-const { getBoxPrices } = require('./app/controllers/apibox');
 const { backUpService } = require('./app/services/backUp');
-
+const { initSocketService } = require('./app//services/socketHandlers');
 
 const { checkRoutePermission } = require("./app/middlewares/checkAuth");
 
@@ -75,7 +73,7 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
 
 
   //* Routes
-  app.use(checkRoutePermission);
+  // app.use(checkRoutePermission);
   app.use("/logInStepOne", logInStepOne);
   app.use("/logInStepTwo", logInStepTwo);
 
@@ -100,24 +98,10 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
   server.listen(PORT, () => {
     console.log(`Server running on port : ${PORT}`);
 
-    goldPriceService();
-    backUpService();
+    // goldPriceService();
+    // backUpService();
     global.io = io;
-
-    io.on('connection', async (socket) => {
-      // console.log('User connected with id: ' + socket.id);
-
-      socket.on('disconnect', () => {
-        // console.log('User disconnected with id: ' + socket.id);
-      });
-
-      io.to(socket.id).emit("apiData", global.apiData);
-      const productPrices = await getProductPrices();
-      const boxPrices = await getBoxPrices();
-      io.to(socket.id).emit("productPrices", productPrices);
-      io.to(socket.id).emit("boxPrices", boxPrices);
-
-    });
+    initSocketService();
 
   });
 })();

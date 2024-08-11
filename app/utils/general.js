@@ -1,3 +1,6 @@
+const User = require('../database/models/User');
+const Token = require('../database/models/Token');
+
 exports.convertPersianNumberToEnglish = (input) => {
     const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
     const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -63,10 +66,27 @@ exports.getMainPartOfUrl = (url) => {
 
     // Remove 'www.'
     url = url.replace(/^www\./, '');
-    
+
     url = url.replace('/', '');
     // Remove domain suffix (e.g., '.com', '.ir') from the end
     url = url.replace(/\.[a-z]{2,}$/i, '');
 
     return url;
+}
+
+
+
+exports.getUserFromToken = async (token) => {
+    const tokenObject = await Token.findOne({ token });
+
+    if (tokenObject == null) {
+        throw { message: 'Invalid token', statusCode: 403 };
+    }
+    const user = await User.findOne({ token_id: tokenObject._id }).populate("token_id").populate("role_id");
+
+    if (user == null) {
+        throw { message: 'Invalid token', statusCode: 403 };
+    }
+
+    return user;
 }

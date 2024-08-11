@@ -15,6 +15,10 @@ const schema = buildSchema(
             required: true,
             ref: 'Role',
         },
+        socket_id: {
+            type: String,
+            unique: true,
+        },
         userName: {
             type: String,
             required: true,

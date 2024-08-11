@@ -21,7 +21,7 @@ exports.checkRoutePermission = async (req, res, next) => {
             if (tokenObject == null) {
                 throw { message: 'Bearer Token is wrong', statusCode: 403 };
             }
-            const user = await User.findOne({ token_id: tokenObject._id }).populate("token_id");
+            const user = await User.findOne({ token_id: tokenObject._id }).populate("token_id").populate("role_id");
             const timeCheck = await checkDelayTime(user.token_id.updatedAt, process.env.USERS_SESSIONS_TIME);
             if (!timeCheck) {
                 throw { message: 'Session expired', statusCode: 403 };

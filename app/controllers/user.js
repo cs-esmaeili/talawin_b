@@ -59,14 +59,11 @@ exports.logInStepTwo = async (req, res, next) => {
         const { _id, token } = await createToken(userName, user.token_id);
         const userUpdate = await User.updateOne({ _id: user._id }, { token_id: _id });
         const verifyCodeDelete = await VerifyCode.deleteOne({ user_id: user._id }).lean();
-        const userPermission = await User.userPermissions(user._id);
-
+        
         res.json({
-            message: mlogInStepTwo.ok, token,
+            message: mlogInStepTwo.ok,
+            token,
             sessionTime: process.env.USERS_SESSIONS_TIME,
-            user: user.data,
-            role: user.role_id.name,
-            userPermission
         });
     } catch (err) {
         console.log(err);
@@ -74,11 +71,16 @@ exports.logInStepTwo = async (req, res, next) => {
     }
 
 }
-exports.userPermissions = async (req, res, next) => {
+exports.userInformation = async (req, res, next) => {
     try {
         if (req.body.user) {
-            const userPermission = await User.userPermissions(req.body.user._id);
-            res.json(userPermission);
+            const permissions = await User.userPermissions(req.body.user._id);
+            const user = req.body.use;
+            res.json({
+                permissions,
+                information: user.data,
+                role: user.role_id.name
+            });
         } else {
             throw { message: "Log In First !", statusCode: 403 };
         }

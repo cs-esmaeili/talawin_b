@@ -187,7 +187,7 @@
         "name": "Role List", 
         "disc": "This is Permission is need for get Roles "
     },
-    "/user/userPermissions": {
+    "/user/userInformation": {
         "name": "Role List", 
         "disc": "This is Permission is need for get Roles "
     },
