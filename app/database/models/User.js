@@ -18,6 +18,7 @@ const schema = buildSchema(
         socket_id: {
             type: String,
             unique: true,
+            sparse: true
         },
         userName: {
             type: String,

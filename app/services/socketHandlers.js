@@ -2,6 +2,7 @@ const { getProductPrices } = require('../controllers/product');
 const { getBoxPrices } = require('../controllers/apibox');
 const { getUserFromToken } = require('../utils/general');
 const User = require('../database/models/User');
+const { userInformation } = require('../controllers/user');
 
 let io = null;
 
@@ -24,11 +25,13 @@ exports.initSocketService = (socketIo) => {
             }
 
             globalEmiters(socket.id);
-
+            userInformationEmiter(user._id, socket.id);
             console.log('User connected with id: ' + socket.id);
 
-            socket.on('disconnect', () => {
+            socket.on('disconnect', async () => {
+                await User.updateOne({ _id: user._id }, { socket_id: null });
                 console.log('User disconnected with id: ' + socket.id);
+
             });
 
         } catch (error) {
@@ -46,3 +49,8 @@ const globalEmiters = async (socket_id) => {
     io.to(socket_id).emit("productPrices", productPrices);
     io.to(socket_id).emit("boxPrices", boxPrices);
 };
+
+const userInformationEmiter = async (user_id, socket_id) => {
+    const information = await userInformation(user_id);
+    io.to(socket_id).emit("information", information);
+}

@@ -33,6 +33,7 @@ exports.logInStepOne = async (req, res, next) => {
 
         res.json({ message: mlogInStepOne.ok, expireTime: process.env.SMS_RESEND_DELAY });
     } catch (err) {
+        console.log(err);
         res.status(err.statusCode || 422).json(err);
     }
 }
@@ -59,7 +60,7 @@ exports.logInStepTwo = async (req, res, next) => {
         const { _id, token } = await createToken(userName, user.token_id);
         const userUpdate = await User.updateOne({ _id: user._id }, { token_id: _id });
         const verifyCodeDelete = await VerifyCode.deleteOne({ user_id: user._id }).lean();
-        
+
         res.json({
             message: mlogInStepTwo.ok,
             token,
@@ -71,21 +72,17 @@ exports.logInStepTwo = async (req, res, next) => {
     }
 
 }
-exports.userInformation = async (req, res, next) => {
+exports.userInformation = async (user_id) => {
     try {
-        if (req.body.user) {
-            const permissions = await User.userPermissions(req.body.user._id);
-            const user = req.body.use;
-            res.json({
-                permissions,
-                information: user.data,
-                role: user.role_id.name
-            });
-        } else {
-            throw { message: "Log In First !", statusCode: 403 };
-        }
+        const permissions = await User.userPermissions(user_id);
+        const user = await User.findOne({ _id: user_id }).populate('role_id', '-permissions').lean();
+        return {
+            permissions,
+            information: user
+        };
+
     } catch (err) {
-        res.status(err.statusCode || 422).json(err);
+        console.log(err);
     }
 }
 
@@ -274,7 +271,7 @@ exports.boxProducts = async (req, res, next) => {
         const result = await Box.findOne({ user_id }).populate("products.product_id");
 
         if (result == null || !result.products) {
-            throw { message: mlogInStepOne.fail_1, statusCode: 422 };//TODO
+            throw { message: mlogInStepOne.fail_1, statusCode: 422 };
         } else {
             res.send(result.products);
         }
@@ -283,10 +280,6 @@ exports.boxProducts = async (req, res, next) => {
         res.status(err.statusCode || 422).json(err);
     }
 }
-
-
-
-
 
 
 exports.sellBoxProducts = async (req, res, next) => {

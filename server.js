@@ -73,7 +73,7 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
 
 
   //* Routes
-  // app.use(checkRoutePermission);
+  app.use(checkRoutePermission);
   app.use("/logInStepOne", logInStepOne);
   app.use("/logInStepTwo", logInStepTwo);
 
