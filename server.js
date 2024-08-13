@@ -98,8 +98,8 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
   server.listen(PORT, () => {
     console.log(`Server running on port : ${PORT}`);
 
-    // goldPriceService();
-    // backUpService();
+    goldPriceService();
+    backUpService();
     global.io = io;
     initSocketService();
 
