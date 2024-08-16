@@ -19,7 +19,8 @@ const { config } = require("./app/utils/sms");
 const { getMainPartOfUrl } = require("./app/utils/general");
 const { goldPriceService } = require('./app/services/goldPrice');
 const { backUpService } = require('./app/services/backUp');
-const { initSocketService } = require('./app//services/socketHandlers');
+const { initSocketService } = require('./app/services/socketHandlers');
+const { LogService } = require('./app/services/logger');
 
 const { checkRoutePermission } = require("./app/middlewares/checkAuth");
 
@@ -100,6 +101,7 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
 
     goldPriceService();
     backUpService();
+    LogService();
     global.io = io;
     initSocketService();
 
