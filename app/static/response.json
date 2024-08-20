@@ -1,4 +1,12 @@
 {
+    "deleteSmsTemplate": {
+        "ok": "قالب پاک شد",
+        "fail": "قالب پاک نشد"
+    },
+    "createSmsTemplate": {
+        "ok": "قالب ساخته شد",
+        "fail": "قالب ساخته نشد"
+    },
     "mSellProducts": {
         "ok": "فروش انجام شد",
         "fail": "فروش انجام نشد"
