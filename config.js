@@ -11,6 +11,7 @@ if (!env || (env !== 'local' && env !== 'host')) {
 const envFile = `.env.${env}`;
 const envFilePath = path.resolve(__dirname, 'config', envFile);
 const targetEnvFile = path.resolve(__dirname, '.env');
+const envTemplateFile = path.resolve(__dirname, 'envTemplate'); // Path for the envTemplate file
 
 const packageFile = `package.${env}.json`;
 const packageFilePath = path.resolve(__dirname, 'config', packageFile);
@@ -29,6 +30,22 @@ if (!fs.existsSync(packageFilePath)) {
 // Copy .env file
 fs.copyFileSync(envFilePath, targetEnvFile);
 console.log(`Copied ${envFilePath} to .env`);
+
+// Create envTemplate file with keys only
+const envData = fs.readFileSync(targetEnvFile, 'utf8');
+const envTemplateData = envData.split('\n')
+  .map(line => {
+    const equalIndex = line.indexOf('=');
+    if (equalIndex !== -1) {
+      return line.substring(0, equalIndex + 1); // Keep everything before and including the '='
+    }
+    return line.trim(); // Return the line as is if it doesn't contain '='
+  })
+  .filter(line => line !== '')
+  .join('\n');
+
+fs.writeFileSync(envTemplateFile, envTemplateData);
+console.log(`Created envTemplate file at ${envTemplateFile}`);
 
 // Read package.json and package.[env].json
 const packageJson = JSON.parse(fs.readFileSync(targetPackageFile, 'utf8'));
