@@ -3,6 +3,10 @@ const { buildSchema } = require("./builder");
 
 
 module.exports = mongoose.model("SmsTemplate", buildSchema({
+    code: {
+        type: Number,
+        required: true,
+    },
     name: {
         type: String,
         required: true,

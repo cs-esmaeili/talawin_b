@@ -7,5 +7,6 @@ const router = new Router();
 router.post("/createSmsTemplate", smsTemplate.createSmsTemplate);
 router.post("/deleteSmsTemplate", smsTemplate.deleteSmsTemplate);
 router.post("/SmsTemplateList", smsTemplate.SmsTemplateList);
+router.post("/sendSmsToUser", smsTemplate.sendSmsToUser);
 
 module.exports = router;

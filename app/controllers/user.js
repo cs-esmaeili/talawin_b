@@ -166,7 +166,7 @@ exports.searchUser = async (req, res, next) => {
         }
         res.send(result);
     } catch (err) {
-        res.status(err.statusCode || 422).json(err);
+        res.status( 422).json({ message: mSearchUser.fail }); 
     }
 }
 

@@ -28,11 +28,6 @@ exports.SendVerifyCodeSms = async (phoneNumber, code) => {
                 "name": "CODE",
                 "value": code
             }]);
-        // const result = await this.sendFastSms("09015750816", "566072",
-        //     [{
-        //         "name": "NAME",
-        //         "value": "مصطفی جون"
-        //     }]);
         return result;
     } catch (error) {
         console.log(error);

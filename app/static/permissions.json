@@ -3,7 +3,27 @@
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
     },
+    "/smsTemplate/createSmsTemplate": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/smsTemplate/sendSmsToUser": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/smsTemplate/deleteSmsTemplate": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/smsTemplate/SmsTemplateList": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
     "/dashboard/product": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/dashboard/sms": {
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
     },

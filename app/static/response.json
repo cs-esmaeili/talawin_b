@@ -1,4 +1,8 @@
 {
+    "sendSmsToUser": {
+        "ok": "پیامک ارسال شد",
+        "fail": "پیامک ارسال نشد"
+    },
     "deleteSmsTemplate": {
         "ok": "قالب پاک شد",
         "fail": "قالب پاک نشد"
