@@ -9,6 +9,7 @@ const file = require("./app/routes/file");
 const post = require("./app/routes/post");
 const role = require("./app/routes/role");
 const user = require("./app/routes/user");
+const smsHistory = require("./app/routes/smsHistory");
 const smsTemplate = require("./app/routes/smsTemplate");
 const product = require("./app/routes/product");
 const history = require("./app/routes/history");
@@ -89,6 +90,7 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
   app.use("/history", history);
   app.use("/apibox", apibox);
   app.use("/smsTemplate", smsTemplate);
+  app.use("/smsHistory", smsHistory);
 
   //* 404 Page
   // app.use(require("./controllers/errorController").get404);

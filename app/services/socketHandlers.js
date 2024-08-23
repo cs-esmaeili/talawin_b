@@ -26,7 +26,6 @@ exports.initSocketService = (socketIo) => {
 
             globalEmiters(socket.id);
             userInformationEmiter(user._id, socket.id);
-            console.log('User connected with id: ' + socket.id);
 
             socket.on('information', async () => {
                 userInformationEmiter(user._id, socket.id);
@@ -34,7 +33,6 @@ exports.initSocketService = (socketIo) => {
 
             socket.on('disconnect', async () => {
                 await User.updateOne({ _id: user._id }, { socket_id: null });
-                console.log('User disconnected with id: ' + socket.id);
 
             });
 

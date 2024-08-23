@@ -1,4 +1,5 @@
 const SmsTemplate = require("../database/models/SmsTemplate")
+const SmsHistory = require("../database/models/SmsHistory")
 const { createSmsTemplate, deleteSmsTemplate, sendSmsToUser } = require('../static/response.json');
 const { sendFastSms } = require('../utils/sms');
 
@@ -43,9 +44,9 @@ exports.SmsTemplateList = async (req, res, next) => {
 
 exports.sendSmsToUser = async (req, res, next) => {
     try {
-        const { phoneNumber, code, params } = req.body;
-
+        const { name, phoneNumber, code, params, text } = req.body;
         const result = await sendFastSms(phoneNumber, code, params);
+        await SmsHistory.create({ phoneNumber, templateName: name, text })
         if (result == false) {
             throw { message: sendSmsToUser.fail, statusCode: 401 };
         }
