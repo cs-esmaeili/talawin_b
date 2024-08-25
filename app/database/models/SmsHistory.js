@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 const { buildSchema } = require("./builder");
 
-
-module.exports = mongoose.model("SmsHistory", buildSchema({
+const SmsHistorySchema = buildSchema({
     phoneNumber: {
         type: Number,
         required: true,
@@ -11,8 +10,26 @@ module.exports = mongoose.model("SmsHistory", buildSchema({
         type: String,
         required: true,
     },
+    templateCode: {
+        type: Number,
+        required: true,
+    },
     text: {
         type: String,
         required: true,
+    },
+    status: {
+        type: String,
+        required: true,
+        default: "ارسال شده"
+    },
+    time: {
+        type: mongoose.Schema.Types.Mixed,
+    },
+    params: {
+        type: Array,
+        default: [],
     }
-}), 'SmsHistory');
+});
+
+module.exports = mongoose.model("SmsHistory", SmsHistorySchema, 'SmsHistory');

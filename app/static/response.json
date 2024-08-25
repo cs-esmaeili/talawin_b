@@ -1,4 +1,8 @@
 {
+    "cancelSendSmsToUser": {
+        "ok": "ارسال لغو شد",
+        "fail": "ارسال لغو شد"
+    },
     "deleteSmsHistory": {
         "ok": "تاریخچه پاک شد",
         "fail": "تاریخچه پاک نشد"

@@ -23,6 +23,7 @@ const { goldPriceService } = require('./app/services/goldPrice');
 const { backUpService } = require('./app/services/backUp');
 const { initSocketService } = require('./app/services/socketHandlers');
 const { LogService } = require('./app/services/logger');
+const { reloadJobs } = require('./app/utils/sms');
 
 const { checkRoutePermission } = require("./app/middlewares/checkAuth");
 
@@ -106,6 +107,7 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
     goldPriceService();
     backUpService();
     LogService();
+    reloadJobs();
     global.io = io;
     initSocketService();
 

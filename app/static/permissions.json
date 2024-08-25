@@ -11,6 +11,10 @@
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
     },
+    "/smsTemplate/cancelSendSmsToUser": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
     "/smsTemplate/createSmsTemplate": {
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "

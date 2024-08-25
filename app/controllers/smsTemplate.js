@@ -1,7 +1,8 @@
 const SmsTemplate = require("../database/models/SmsTemplate")
 const SmsHistory = require("../database/models/SmsHistory")
-const { createSmsTemplate, deleteSmsTemplate, sendSmsToUser } = require('../static/response.json');
-const { sendFastSms } = require('../utils/sms');
+const { createSmsTemplate, deleteSmsTemplate, sendSmsToUser, cancelSendSmsToUser } = require('../static/response.json');
+const { sendFastSms, scheduleSms, cancelSms } = require('../utils/sms');
+const { convertPersianNumberToEnglish } = require('../utils/general');
 
 exports.createSmsTemplate = async (req, res, next) => {
     try {
@@ -44,13 +45,35 @@ exports.SmsTemplateList = async (req, res, next) => {
 
 exports.sendSmsToUser = async (req, res, next) => {
     try {
-        const { name, phoneNumber, code, params, text } = req.body;
-        const result = await sendFastSms(phoneNumber, code, params);
-        await SmsHistory.create({ phoneNumber, templateName: name, text })
+        const { templateName, phoneNumber, templateCode, params, text, time } = req.body;
+
+        let result = null;
+        if (time == false) {
+            result = await sendFastSms(phoneNumber, templateCode, params);
+            await SmsHistory.create({ phoneNumber, templateName, templateCode, text })
+        } else {
+            result = await scheduleSms(convertPersianNumberToEnglish(time), phoneNumber, templateName, templateCode, text, params);
+        }
+
         if (result == false) {
             throw { message: sendSmsToUser.fail, statusCode: 401 };
         }
         res.send({ message: sendSmsToUser.ok });
+    } catch (err) {
+        console.log(err);
+        res.status(err.statusCode || 500).json(err);
+    }
+}
+exports.cancelSendSmsToUser = async (req, res, next) => {
+    try {
+        const { job_id } = req.body;
+
+        const result = await cancelSms(job_id);
+
+        if (result == false) {
+            throw { message: cancelSendSmsToUser.fail, statusCode: 401 };
+        }
+        res.send({ message: cancelSendSmsToUser.ok });
     } catch (err) {
         console.log(err);
         res.status(err.statusCode || 500).json(err);

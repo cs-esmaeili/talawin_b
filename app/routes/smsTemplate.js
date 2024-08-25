@@ -8,5 +8,6 @@ router.post("/createSmsTemplate", smsTemplate.createSmsTemplate);
 router.post("/deleteSmsTemplate", smsTemplate.deleteSmsTemplate);
 router.post("/SmsTemplateList", smsTemplate.SmsTemplateList);
 router.post("/sendSmsToUser", smsTemplate.sendSmsToUser);
+router.post("/cancelSendSmsToUser", smsTemplate.cancelSendSmsToUser);
 
 module.exports = router;

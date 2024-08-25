@@ -11,35 +11,47 @@ exports.initSocketService = (socketIo) => {
     io.on('connection', async (socket) => {
         const token = socket.handshake.query.token;
 
-        try {
-            if (!token) {
-                throw new Error('Authentication token is required');
+        if (token) {
+            try {
+                const user = await getUserFromToken(token);
+
+                const update = await User.updateOne({ _id: user._id }, { socket_id: socket.id });
+
+                if (update.nModified === 0) {
+                    throw new Error('Socket ID update failed, no document was modified.');
+                }
+
+                globalEmiters(socket.id);
+                userInformationEmiter(user._id, socket.id);
+
+                socket.on('information', async () => {
+                    userInformationEmiter(user._id, socket.id);
+                });
+
+                socket.on('disconnect', async () => {
+                    await User.updateOne({ _id: user._id }, { $unset: { socket_id: "" } });
+                });
+
+            } catch (error) {
+                console.error('Authentication error:', error.message);
+                socket.emit('authenticationError', { message: 'Authentication failed' });
+                socket.disconnect();
             }
-
-            const user = await getUserFromToken(token);
-
-            const update = await User.updateOne({ _id: user._id }, { socket_id: socket.id });
-
-            if (update.nModified === 0) {
-                throw new Error('Socket ID update failed, no document was modified.');
-            }
+        } else {
+            // Handle non-authenticated users
+            console.log('Non-authenticated user connected:', socket.id);
 
             globalEmiters(socket.id);
-            userInformationEmiter(user._id, socket.id);
 
+            // If needed, limit the actions available to non-authenticated users
             socket.on('information', async () => {
-                userInformationEmiter(user._id, socket.id);
+                // Non-authenticated users won't have access to user-specific information
+                socket.emit('information', { message: 'Guest users have limited access' });
             });
 
-            socket.on('disconnect', async () => {
-                await User.updateOne({ _id: user._id }, { socket_id: null });
-
+            socket.on('disconnect', () => {
+                console.log('Non-authenticated user disconnected:', socket.id);
             });
-
-        } catch (error) {
-            console.error('Authentication error:', error.message);
-            socket.emit('authenticationError', { message: 'Authentication failed' });
-            socket.disconnect();
         }
     });
 };
