@@ -13,7 +13,7 @@ exports.checkRoutePermission = async (req, res, next) => {
             return;
         }
 
-        if (!authHeader && !authHeader.startsWith('Bearer ')) {
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
             throw { message: 'Bearer Token is missing', statusCode: 401 };
         }
 
@@ -30,8 +30,6 @@ exports.checkRoutePermission = async (req, res, next) => {
         req.user = user;
         next();
     } catch (err) {
-        console.log(err);
-
         res.status(err.statusCode || 500).json(err);
     }
 }
