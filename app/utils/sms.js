@@ -26,6 +26,19 @@ exports.sendFastSms = async (phoneNumber, template, params) => {
     }
 };
 
+exports.SendVerifyCodeSms = async (phoneNumber, code) => {
+    try {
+        const result = await this.sendFastSms(phoneNumber, "179494",
+            [{
+                "name": "CODE",
+                "value": code
+            }]);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 exports.scheduleSms = async (time, phoneNumber, templateName, templateCode, text, params) => {
 
     const smsHistory = await SmsHistory.create({

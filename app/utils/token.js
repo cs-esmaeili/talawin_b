@@ -1,5 +1,6 @@
 const VerifyCode = require('../database/models/VerifyCode');
 const { checkDelayTime } = require('./checkTime');
+const { currentTime } = require('../utils/TimeConverter');
 const Token = require('../database/models/Token');
 const { mCreateVerifyCode } = require('../static/response.json');
 const bcrypt = require('bcryptjs');
@@ -20,6 +21,35 @@ exports.createToken = async (unicData, token_id = null) => {
         console.error('Error updating or creating document:', error);
         return false;
     }
+}
+
+exports.refreshTokenTime = async (token_id) => {
+    const newTime = await currentTime();
+    const tokenObject = await Token.updateOne({ _id: token_id }, { updatedAt: newTime });
+    if (tokenObject.modifiedCount != 1) {
+        throw { message: 'Token time can not refresh', statusCode: 404 };
+    }
+    return true;
+}
+
+exports.verifyToken = async (token) => {
+    const tokenObject = await Token.findOne({ token });
+    if (tokenObject == null) {
+        throw { message: 'Token not Found !', statusCode: 404 };
+    }
+    const timeCheck = checkDelayTime(tokenObject.updatedAt, process.env.USERS_SESSIONS_TIME);
+    if (!timeCheck) {
+        throw { message: 'Session expired', statusCode: 403 };
+    }
+    return true;
+}
+
+exports.getToken = async (token) => {
+    const tokenObject = await Token.findOne({ token });
+    if (tokenObject == null) {
+        throw { message: 'Token not Found !', statusCode: 404 };
+    }
+    return tokenObject;
 }
 
 exports.createVerifyCode = async (user_id) => {

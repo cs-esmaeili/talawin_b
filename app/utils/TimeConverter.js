@@ -1,5 +1,6 @@
 var jalaali = require('jalaali-js');
 
+const useMiladiTime = encodeURIComponent(process.env.USE_MILADI_TIME);
 
 exports.convertToUTC = (inputDate) => {
     const dateParts = inputDate.split(' ')[0].split('/');
@@ -64,4 +65,13 @@ exports.jalaliToMiladi = (jalaliTime) => {
     let { gy, gm, gd } = jalaali.toGregorian(parseInt(datePart[0]), parseInt(datePart[1]), parseInt(datePart[2]));
     const miladiTime = refactorFormat(`${gy}/${gm}/${gd} ${time}`);
     return miladiTime;
+}
+
+
+exports.currentTime = () => {
+    if (useMiladiTime === 'true') {
+        return this.utcToMiladi(new Date());
+    } else {
+        return this.utcToJalali(new Date());
+    }
 }
