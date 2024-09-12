@@ -25,13 +25,25 @@ exports.createToken = async (unicData, token_id = null) => {
 
 exports.refreshTokenTime = async (token_id) => {
     const newTime = await currentTime();
-    const tokenObject = await Token.updateOne({ _id: token_id }, { updatedAt: newTime });
-    if (tokenObject.modifiedCount != 1) {
-        throw { message: 'Token time can not refresh', statusCode: 404 };
-    }
-    return true;
-}
 
+    const tokenObject = await Token.findOne({ _id: token_id });
+
+    if (!tokenObject) {
+        throw { message: 'Token not found', statusCode: 404 };
+    }
+
+    if (tokenObject.updatedAt === newTime) {
+        return true; 
+    }
+
+    const updateResult = await Token.updateOne({ _id: token_id }, { updatedAt: newTime });
+
+    if (updateResult.modifiedCount != 1) {
+        throw { message: 'Token time cannot be refreshed', statusCode: 500 };
+    }
+
+    return true;
+};
 exports.verifyToken = async (token) => {
     const tokenObject = await Token.findOne({ token });
     if (tokenObject == null) {

@@ -1,6 +1,6 @@
 const { getProductPrices } = require('../controllers/product');
 const { getBoxPrices } = require('../controllers/apibox');
-const { getUserFromToken } = require('../utils/general');
+const { getUserFromToken } = require('../utils/user');
 const { verifyToken } = require('../utils/token');
 const User = require('../database/models/User');
 

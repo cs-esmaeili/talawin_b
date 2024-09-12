@@ -7,6 +7,7 @@ const VerifyCode = require("../database/models/VerifyCode");
 const { SendVerifyCodeSms } = require("../utils/sms");
 const { checkDelayTime } = require("../utils/checkTime");
 const { convertPersianNumberToEnglish, updateProductCount } = require("../utils/general");
+const { checkUserAccess } = require("../utils/user");
 const { transaction } = require('../database');
 const bcrypt = require('bcryptjs');
 
@@ -60,18 +61,36 @@ exports.logInStepTwo = async (req, res, next) => {
         const { _id, token } = await createToken(userName, user.token_id);
         const userUpdate = await User.updateOne({ _id: user._id }, { token_id: _id });
         const verifyCodeDelete = await VerifyCode.deleteOne({ user_id: user._id }).lean();
-
         res.json({
             message: mlogInStepTwo.ok,
             token,
             sessionTime: process.env.USERS_SESSIONS_TIME,
         });
+
     } catch (err) {
         console.log(err);
         res.status(err.statusCode || 422).json(err);
     }
 
 }
+
+exports.securityCheck = async (req, res, next) => {
+    try {
+        const { route } = await req.body;
+        const check = await checkUserAccess(req.token, route);
+        const { permissions, information } = await this.userInformation(req.user._id);
+
+        res.json({
+            information,
+            permissions,
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(422).json({ message: mSearchUser.fail });
+    }
+}
+
+
 exports.userInformation = async (user_id) => {
     try {
         const permissions = await User.userPermissions(user_id);
@@ -166,9 +185,10 @@ exports.searchUser = async (req, res, next) => {
         }
         res.send(result);
     } catch (err) {
-        res.status( 422).json({ message: mSearchUser.fail }); 
+        res.status(422).json({ message: mSearchUser.fail });
     }
 }
+
 
 exports.buyProducts = async (req, res, next) => {
 

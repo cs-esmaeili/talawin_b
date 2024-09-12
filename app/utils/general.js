@@ -73,20 +73,3 @@ exports.getMainPartOfUrl = (url) => {
 
     return url;
 }
-
-
-
-exports.getUserFromToken = async (token) => {
-    const tokenObject = await Token.findOne({ token });
-
-    if (tokenObject == null) {
-        throw { message: 'Invalid token', statusCode: 403 };
-    }
-    const user = await User.findOne({ token_id: tokenObject._id }).populate("token_id").populate("role_id");
-
-    if (user == null) {
-        throw { message: 'Invalid token', statusCode: 403 };
-    }
-
-    return user;
-}

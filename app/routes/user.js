@@ -13,5 +13,6 @@ router.post("/buyProducts", user.buyProducts);
 router.post("/sellProducts", user.sellProducts);
 router.post("/boxProducts", user.boxProducts);
 router.post("/sellBoxProducts", user.sellBoxProducts);
+router.post("/securityCheck", user.securityCheck);
 
 module.exports = router;
