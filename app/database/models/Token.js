@@ -6,5 +6,8 @@ module.exports = mongoose.model("Token", buildSchema({
         type: String,
         required: true,
         max: 255,
+    },
+    noExpire: {
+        type: Boolean,
     }
 }), 'Token');

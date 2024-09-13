@@ -13,8 +13,12 @@ exports.getUserFromToken = async (token) => {
     }
     const user = await User.findOne({ token_id: tokenObject._id }).populate("token_id").populate("role_id");
 
+    if (tokenObject.noExpire == true && user == null) {
+        return false;
+    }
+    
     if (user == null) {
-        throw { message: 'Invalid token', statusCode: 403 };
+        throw { message: 'User not found !', statusCode: 404 };
     }
 
     return user;

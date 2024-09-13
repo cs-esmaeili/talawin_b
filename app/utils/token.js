@@ -33,7 +33,7 @@ exports.refreshTokenTime = async (token_id) => {
     }
 
     if (tokenObject.updatedAt === newTime) {
-        return true; 
+        return true;
     }
 
     const updateResult = await Token.updateOne({ _id: token_id }, { updatedAt: newTime });
@@ -46,9 +46,15 @@ exports.refreshTokenTime = async (token_id) => {
 };
 exports.verifyToken = async (token) => {
     const tokenObject = await Token.findOne({ token });
+
     if (tokenObject == null) {
         throw { message: 'Token not Found !', statusCode: 404 };
     }
+
+    if (tokenObject.noExpire == true) {
+        return true;
+    }
+
     const timeCheck = checkDelayTime(tokenObject.updatedAt, process.env.USERS_SESSIONS_TIME);
     if (!timeCheck) {
         throw { message: 'Session expired', statusCode: 403 };

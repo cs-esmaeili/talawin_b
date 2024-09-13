@@ -14,15 +14,15 @@ exports.initSocketService = (socketIo) => {
 
             const checkToken = await verifyToken(token);
             const user = await getUserFromToken(token);
+            if (user) {
+                const update = await User.updateOne({ _id: user._id }, { socket_id: socket.id });
 
-            const update = await User.updateOne({ _id: user._id }, { socket_id: socket.id });
-
-            if (update.nModified === 0) {
-                throw new Error('Socket ID update failed, no document was modified.');
+                if (update.nModified === 0) {
+                    throw new Error('Socket ID update failed, no document was modified.');
+                }
             }
 
             globalEmiters(socket.id);
-
 
             socket.on('disconnect', async () => {
                 await User.updateOne({ _id: user._id }, { $unset: { socket_id: "" } });
