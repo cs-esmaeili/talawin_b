@@ -21,9 +21,12 @@ module.exports = mongoose.model("Product", buildSchema({
         url: String,
         blurHash: String
     },
-    visible: {
-        type: Boolean,
-        default: true,
+    status: {
+        type: Number,
+        default: 0,
+        // 0 forosh 
+        // 1 adam forosh 
+        // 2 invisibel
     },
     buyPrice: {
         type: Number,
@@ -61,6 +64,36 @@ module.exports = mongoose.model("Product", buildSchema({
         type: Number,
         min: 0,
         required: true,
+        default: 0,
+    },
+    ang: {
+        type: Number,
+        min: 0,
+        required: false,
+    },
+    ojrat: {
+        type: String,
+        default: "p"
+    },
+    ayar: {
+        type: Number,
+        min: 0,
+        required: false,
+        default: 750,
+    },
+    labName: {
+        type: String,
+    },
+    inventory: {
+        type: Number,
+        min: 0,
+        required: false,
+        default: 0,
+    },
+    weight: {
+        type: Number,
+        min: 0,
+        required: false,
         default: 0,
     },
 }), 'Product');

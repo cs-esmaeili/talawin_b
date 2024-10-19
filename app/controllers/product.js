@@ -16,12 +16,20 @@ exports.productList = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
     try {
-        const { box_id, name, cBuyPrice, cSellPrice, formulaBuy, formulaSell, disc, image, discount, formula, visible } = req.body;
+        const { box_id, name, cBuyPrice, cSellPrice, formulaBuy, formulaSell, disc, image, discount, status, inventory, weight, ayar, ang, ojrat, labName } = req.body;
+        console.log(req.body);
+
         const apiBox = await ApiBox.findOne({ _id: box_id });
 
-        const { buyPrice, sellPrice } = calculateProductPrice({ cBuyPrice, cSellPrice, formulaBuy, formulaSell, discount }, apiBox);
+        const { buyPrice, sellPrice } = calculateProductPrice({ cBuyPrice, cSellPrice, formulaBuy, formulaSell, discount, ojrat, weight, ayar }, apiBox);
 
-        const result = await Product.create({ apiBox_id: box_id, name, buyPrice, sellPrice, cBuyPrice, cSellPrice, formulaBuy, formulaSell, disc, image, discount, formula, visible });
+        const result = await Product.create({
+            apiBox_id: box_id,
+            buyPrice,
+            sellPrice,
+            cBuyPrice,
+            name, cBuyPrice, cSellPrice, formulaBuy, formulaSell, disc, image, discount, status, inventory, weight, ayar, ang, ojrat, labName
+        });
 
 
         if (result) {
@@ -41,10 +49,13 @@ exports.createProduct = async (req, res, next) => {
 
 exports.updateProduct = async (req, res, next) => {
     try {
-        const { id, box_id, name, cBuyPrice, cSellPrice, formulaBuy, formulaSell, disc, image, discount, formula, visible } = req.body;
+        const { id, box_id, name, cBuyPrice, cSellPrice, formulaBuy, formulaSell, disc, image, discount, status, inventory, weight, ayar, ang, ojrat, labName } = req.body;
         const apiBox = await ApiBox.findOne({ _id: box_id });
-        const { buyPrice, sellPrice } = calculateProductPrice({ cBuyPrice, cSellPrice, formulaBuy, formulaSell, discount }, apiBox);
-        const result = await Product.updateOne({ _id: id }, { apiBox_id: box_id, name, buyPrice, sellPrice, cBuyPrice, cSellPrice, formulaBuy, formulaSell, disc, image, discount, formula, visible });
+        const { buyPrice, sellPrice } = calculateProductPrice({ cBuyPrice, cSellPrice, formulaBuy, formulaSell, discount, ojrat, weight, ayar }, apiBox);
+        const result = await Product.updateOne({ _id: id }, {
+            apiBox_id: box_id, buyPrice, sellPrice,
+            name, cBuyPrice, cSellPrice, formulaBuy, formulaSell, disc, image, discount, status, inventory, weight, ayar, ang, ojrat, labName
+        });
 
         if (result.modifiedCount == 1) {
             res.send({ message: mUpdateProduct.ok });
