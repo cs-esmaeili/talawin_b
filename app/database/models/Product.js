@@ -9,6 +9,11 @@ module.exports = mongoose.model("Product", buildSchema({
         required: true,
         ref: 'ApiBox',
     },
+    category_id: {
+        type: mongoose.ObjectId,
+        required: true,
+        ref: 'Category',
+    },
     name: {
         type: String,
         required: true,

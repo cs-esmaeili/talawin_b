@@ -13,6 +13,12 @@ const ProductHistory = new mongoose.Schema({
         required: true,
         min: 0,
     },
+    weight: {
+        type: Number,
+        min: 0,
+        required: false,
+        default: 0,
+    },
     count: {
         type: Number,
         required: true,
@@ -21,7 +27,7 @@ const ProductHistory = new mongoose.Schema({
 }, { _id: false });
 
 
-module.exports = mongoose.model("History", buildSchema({
+module.exports = mongoose.model("Factor", buildSchema({
     title: {
         type: String,
         required: true,
@@ -45,9 +51,13 @@ module.exports = mongoose.model("History", buildSchema({
         required: true,
         min: 0,
     },
+    time: {
+        type: mongoose.Schema.Types.Mixed,
+        required: true,
+    },
     targetTime: {
         type: mongoose.Schema.Types.Mixed,
         required: true,
     },
     products: [ProductHistory],
-}), 'History');
+}), 'Factor');

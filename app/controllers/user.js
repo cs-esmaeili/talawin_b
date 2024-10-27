@@ -2,7 +2,7 @@ const { createToken, createVerifyCode } = require("../utils/token");
 const User = require("../database/models/User");
 const Role = require("../database/models/Role");
 const Box = require("../database/models/Box");
-const History = require("../database/models/History");
+const Factor = require("../database/models/Factor");
 const VerifyCode = require("../database/models/VerifyCode");
 const { SendVerifyCodeSms } = require("../utils/sms");
 const { checkDelayTime } = require("../utils/checkTime");
@@ -203,7 +203,7 @@ exports.buyProducts = async (req, res, next) => {
             };
         });
 
-        await History.create({
+        await Factor.create({
             title: "خرید",
             disc: "خرید طلا",
             type: 1,
@@ -261,7 +261,7 @@ exports.sellProducts = async (req, res, next) => {
             };
         });
 
-        await History.create({
+        await Factor.create({
             title: "فروش",
             disc: "فروش طلا",
             type: 2,
@@ -316,7 +316,7 @@ exports.sellBoxProducts = async (req, res, next) => {
             };
         });
 
-        await History.create({
+        await Factor.create({
             title: "فروش",
             disc: "فروش طلا از صندوق",
             type: 3,
