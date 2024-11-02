@@ -1,5 +1,6 @@
 const { getImageBlurHash } = require('../../utils/file');
 const Product = require('../models/Product');
+const Category = require('../models/Category');
 const ApiBox = require('../models/ApiBox');
 const { green, red } = require('colors');
 
@@ -7,6 +8,7 @@ const seqNumber = 8;
 const seed = async (app) => {
     const blurHash = await getImageBlurHash("1.jpg");
     const apibox = (await ApiBox.find({}))[0];
+    const category_id = (await Category.find({}))[0];
     for (let i = 1; i <= 12; i++) {
         await Product.create({
             apiBox_id: apibox._id,
@@ -21,6 +23,7 @@ const seed = async (app) => {
             discount: (i % 2 == 0) ? 2000 : 0,
             formulaBuy: "p-10000",
             formulaSell: "p",
+            category_id
         });
     }
     await console.log(`${red(seqNumber)} : ${green('Product seed done')}`);
