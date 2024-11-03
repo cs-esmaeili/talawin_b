@@ -5,14 +5,36 @@ const ApiBox = require("../database/models/ApiBox");
 
 exports.productList = async (req, res, next) => {
     try {
-        const { page, perPage } = req.body;
-        let products = await Product.find({}).skip((page - 1) * perPage).limit(perPage).populate("apiBox_id category_id").lean();
-        const productsCount = await Product.countDocuments({});
-        res.send({ productsCount, products });
+        const { page = 1, perPage = 10, category } = req.body;
+
+        // Query for products, with a condition on category if provided
+        let query = {};
+
+        const products = await Product.find(query)
+            .skip((page - 1) * perPage)
+            .limit(perPage)
+            .populate({
+                path: "category_id",
+                match: category ? { name: category } : {}, // Only match if category is provided
+                select: "name"
+            })
+            .populate("apiBox_id")
+            .lean();
+
+        // Filter out products where category name did not match if a category is specified
+        const filteredProducts = category 
+            ? products.filter(product => product.category_id) // Remove unmatched categories
+            : products; // Use all products if category is not specified
+
+        const productsCount = await Product.countDocuments(query);
+        
+        res.send({ productsCount, products: filteredProducts });
     } catch (err) {
         res.status(err.statusCode || 500).json(err);
     }
-}
+};
+
+
 
 exports.createProduct = async (req, res, next) => {
     try {
@@ -55,7 +77,7 @@ exports.updateProduct = async (req, res, next) => {
         const { buyPrice, sellPrice } = calculateProductPrice({ cBuyPrice, cSellPrice, formulaBuy, formulaSell, discount, ojrat, weight, ayar }, apiBox);
         const result = await Product.updateOne({ _id: id }, {
             apiBox_id: box_id, buyPrice, sellPrice,
-            name, cBuyPrice, cSellPrice, formulaBuy, category_id ,formulaSell, disc, image, discount, status, inventory, weight, ayar, ang, ojrat, labName
+            name, cBuyPrice, cSellPrice, formulaBuy, category_id, formulaSell, disc, image, discount, status, inventory, weight, ayar, ang, ojrat, labName
         });
 
         if (result.modifiedCount == 1) {

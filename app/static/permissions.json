@@ -3,6 +3,10 @@
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
     },
+    "/user/securityCheck": {
+        "name": "Role List", 
+        "disc": "This is Permission is need for get Roles "
+    },
     "/smsHistory/smsHistoryList": {
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
@@ -224,10 +228,6 @@
         "disc": "This is Permission is need for get Roles "
     },
     "/user/userInformation": {
-        "name": "Role List", 
-        "disc": "This is Permission is need for get Roles "
-    },
-    "/user/securityCheck": {
         "name": "Role List", 
         "disc": "This is Permission is need for get Roles "
     },

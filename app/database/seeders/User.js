@@ -7,7 +7,7 @@ const { getImageBlurHash } = require('../../utils/file');
 
 const seqNumber = 3;
 const seed = async (app) => {
-    const role = await Role.find({ name: "admin" });
+    const role = await Role.find({ name: "coWorker" });
     const result = await createToken(process.env.ADMIN_USERNAME);
 
     const blurHash = await getImageBlurHash("1.jpg");
