@@ -47,7 +47,11 @@
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
     },
-    "/dashboard/apibox": {
+    "/dashboard/executeTrade": {
+        "name": "Dashborad Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/coWorker/executeTrade": {
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
     },

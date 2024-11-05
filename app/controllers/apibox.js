@@ -8,7 +8,7 @@ exports.getGoldPriceFromAPI = async (req, res, next) => {
         const { data } = await goldPrice();
         global.apiData = data.result;
     } catch (error) {
-        console.error("Failed to get GoldPrice");
+        // console.error("Failed to get GoldPrice");
     }
 };
 

@@ -31,7 +31,7 @@ exports.calculateBoxPrice = (box) => {
         let sellPrice = 0;
 
         if (global.apiData == false || global.apiData == undefined || global.apiData == null || global.apiData.length == 0) {
-            return { buyPrice: cBuyPrice, sellPrice: cSellPrice }
+            return { buyPrice, sellPrice }
         }
 
         let apiPrice = this.getObjectByKey(global.apiData, 'key', Number(apiPath));

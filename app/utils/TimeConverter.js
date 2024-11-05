@@ -7,7 +7,7 @@ exports.convertToUTC = (inputDate) => {
     const timeParts = inputDate.split(' ')[1].split(':');
 
     const year = parseInt(dateParts[0]);
-    const month = parseInt(dateParts[1]) - 1; 
+    const month = parseInt(dateParts[1]) - 1;
     const day = parseInt(dateParts[2]);
     const hours = parseInt(timeParts[0]);
     const minutes = parseInt(timeParts[1]);
@@ -15,8 +15,8 @@ exports.convertToUTC = (inputDate) => {
 
     const localDate = new Date(year, month, day, hours, minutes, seconds);
     const utcDate = new Date(localDate.getTime() + localDate.getTimezoneOffset() * 60000);
-  
-    return utcDate.toISOString().slice(0, 19).replace('T', ' '); 
+
+    return utcDate.toISOString().slice(0, 19).replace('T', ' ');
 }
 
 
@@ -47,7 +47,7 @@ exports.utcToMiladi = (dateString) => {
     const hours = String(dateObj.getHours()).padStart(2, "0");
     const minutes = String(dateObj.getMinutes()).padStart(2, "0");
     const seconds = String(dateObj.getSeconds()).padStart(2, "0");
-  
+
     const formattedDate = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
     return formattedDate;
 }

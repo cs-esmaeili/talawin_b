@@ -14,8 +14,8 @@ const smsTemplate = require("./app/routes/smsTemplate");
 const product = require("./app/routes/product");
 const history = require("./app/routes/history");
 const apibox = require("./app/routes/apibox");
-const { logInStepOne } = require("./app/controllers/user");
-const { logInStepTwo } = require("./app/controllers/user");
+const { logInStepOne, logInStepTwo } = require("./app/controllers/user");
+const coWorker = require("./app/routes/coWorker");
 const permission = require("./app/routes/permission");
 const { config } = require("./app/utils/sms");
 const { getMainPartOfUrl } = require("./app/utils/general");
@@ -90,6 +90,7 @@ const { checkRoutePermission } = require("./app/middlewares/checkAuth");
   app.use("/product", product);
   app.use("/history", history);
   app.use("/apibox", apibox);
+  app.use("/coWorker", coWorker);
   app.use("/smsTemplate", smsTemplate);
   app.use("/smsHistory", smsHistory);
 

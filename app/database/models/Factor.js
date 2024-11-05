@@ -34,9 +34,13 @@ module.exports = mongoose.model("Factor", buildSchema({
     },
     disc: {
         type: String,
-        required: true,
+        required: false,
     },
-    type: {
+    type: { 
+        // 1 pending kharid
+        // 2 pending forosh
+        // 3 accepted
+        // 4 reject
         type: Number,
         required: true,
         default: 0,
