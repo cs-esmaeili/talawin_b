@@ -25,7 +25,8 @@ const seed = async (app) => {
             discount: (i % 2 == 0) ? 2000 : 0,
             formulaBuy: "p-10000",
             formulaSell: "p",
-            category_id: (i % 2 == 0) ? category_id[0] : category_id[1]
+            category_id: (i % 2 == 0) ? category_id[0] : category_id[1],
+            weight: (Math.round(Math.random())) ? 500 : 0,
         });
     }
     await console.log(`${red(seqNumber)} : ${green('Product seed done')}`);
