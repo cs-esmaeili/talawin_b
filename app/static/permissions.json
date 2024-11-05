@@ -4,7 +4,7 @@
         "disc": "This is Permission is need for see Dashborad Page "
     },
     "/user/securityCheck": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/smsHistory/smsHistoryList": {
@@ -99,6 +99,18 @@
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
     },
+    "/dashboard/factors": {
+        "name": "Factors Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/factor/factorListUser": {
+        "name": "Factors Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
+    "/factor/changeFactorStatus": {
+        "name": "Factors Page",
+        "disc": "This is Permission is need for see Dashborad Page "
+    },
     "/dashboard/category": {
         "name": "Dashborad Page",
         "disc": "This is Permission is need for see Dashborad Page "
@@ -120,127 +132,127 @@
         "disc": "This is Permission is need for see Dashborad Page "
     },
     "/user/registerPure": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/user/updateRegisterPure": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/user/boxProducts": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/user/sellBoxProducts": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/user/sellProducts": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/user/buyProducts": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/user/searchUser": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/user/userList": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/role/roleList": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/role/createRole": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/role/deleteRole": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/role/updateRole": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/permission/togglePermission": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/category/createCategory": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/category/deleteCategory": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/category/updateCategory": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/category/categoryList": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/post/postList": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/post/postSerach": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/post/createPost": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/post/updatePost": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/post/deletePost": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/file/saveFile": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/file/deleteFolder": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/file/deleteFile": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/file/folderFileList": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/file/createFolder": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/file/rename": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/user/userInformation": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/site/updateFirstPage": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     },
     "/product/productList": {
-        "name": "Role List", 
+        "name": "Role List",
         "disc": "This is Permission is need for get Roles "
     }
 }

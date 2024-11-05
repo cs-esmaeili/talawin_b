@@ -24,12 +24,12 @@ exports.executeTrade = async (req, res, next) => {
 
         if (result) {
             res.status(201).json({
-                message: 'Trade successful',
+                message: 'خرید انجام شد',
                 data: result
             });
         } else {
             res.status(400).json({
-                message: 'Trade failed, no result returned'
+                message: 'خرید انجام نشد دوباره تلاش کنید'
             });
         }
 
