@@ -7,24 +7,22 @@ exports.productList = async (req, res, next) => {
     try {
         const { page = 1, perPage = 10, category } = req.body;
 
-        // Query for products, with a condition on category if provided
-        let query = {};
+        let query = { status: { $ne: 2 } };
 
         const products = await Product.find(query)
             .skip((page - 1) * perPage)
             .limit(perPage)
             .populate({
                 path: "category_id",
-                match: category ? { name: category } : {}, // Only match if category is provided
+                match: category ? { name: category } : {}, 
                 select: "name"
             })
             .populate("apiBox_id")
             .lean();
 
-        // Filter out products where category name did not match if a category is specified
         const filteredProducts = category 
-            ? products.filter(product => product.category_id) // Remove unmatched categories
-            : products; // Use all products if category is not specified
+            ? products.filter(product => product.category_id) 
+            : products; 
 
         const productsCount = await Product.countDocuments(query);
         

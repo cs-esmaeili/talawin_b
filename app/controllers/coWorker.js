@@ -6,7 +6,8 @@ exports.executeTrade = async (req, res, next) => {
         const { price, product_id, product_price, weight, purchase } = await req.body;
 
         const time = currentTime();
-
+        console.log(price);
+        
         const result = await Factor.create({
             title: (purchase) ? "خرید" : "فروش",
             type: (purchase) ? 1 : 2,
@@ -35,6 +36,8 @@ exports.executeTrade = async (req, res, next) => {
 
     } catch (err) {
         console.log(err);
-        res.status(err.statusCode || 422).json(err);
+        res.status(400).json({
+            message: 'خرید انجام نشد دوباره تلاش کنید'
+        });
     }
 }

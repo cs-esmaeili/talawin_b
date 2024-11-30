@@ -50,6 +50,8 @@ exports.calculateBoxPrice = (box) => {
         if (cSellPrice != 0) {
             sellPrice = cSellPrice;
         }
+
+
         return { buyPrice, sellPrice }
     } catch (error) {
         console.log(error);
@@ -58,23 +60,14 @@ exports.calculateBoxPrice = (box) => {
 
 exports.calculateProductPrice = (product, apiBox) => {
     try {
-        const {
-            cBuyPrice,
-            cSellPrice,
-            formulaBuy,
-            formulaSell,
-            discount,
-            ojrat,
-            weight,
-            ayar
-        } = product;
+        const { cBuyPrice = 0, cSellPrice = 0, formulaBuy, formulaSell, discount = 0, ojrat = 0, weight = 0, ayar = 750 } = product;
 
         if (!global.apiData || global.apiData.length === 0) {
             return { buyPrice: cBuyPrice, sellPrice: cSellPrice };
         }
 
-        const buyPrice = cBuyPrice !== 0 ? cBuyPrice : calculateFormula(formulaBuy, apiBox.buyPrice);
-        const sellPrice = (cSellPrice !== 0 ? cSellPrice : calculateFormula(formulaSell, apiBox.sellPrice)) - discount;
+        let buyPrice = cBuyPrice !== 0 ? cBuyPrice : calculateFormula(formulaBuy, apiBox.buyPrice);
+        let sellPrice = (cSellPrice !== 0 ? cSellPrice : calculateFormula(formulaSell, apiBox.sellPrice)) - discount;
 
 
         if (weight != 0) {
