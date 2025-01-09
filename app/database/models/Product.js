@@ -77,8 +77,9 @@ module.exports = mongoose.model("Product", buildSchema({
         required: false,
     },
     ojrat: {
-        type: String,
-        default: "p"
+        type: Number,
+        default: 0,
+        min: 0,
     },
     ayar: {
         type: Number,

@@ -102,6 +102,7 @@ exports.updateAllProductPrices = async () => {
             products[i].sellPrice = sellPrice;
             updatedProducts.push(products[i]);
         }
+        
 
         if (updatedProducts.length > 0) {
             await Promise.all(updatedProducts.map(updatedPrice => Product.findByIdAndUpdate(updatedPrice._id, { buyPrice: updatedPrice.buyPrice, sellPrice: updatedPrice.sellPrice })));

@@ -6,7 +6,6 @@ exports.executeTrade = async (req, res, next) => {
         const { price, product_id, product_price, weight, purchase } = await req.body;
 
         const time = currentTime();
-        console.log(price);
         
         const result = await Factor.create({
             title: (purchase) ? "خرید" : "فروش",
@@ -25,7 +24,7 @@ exports.executeTrade = async (req, res, next) => {
 
         if (result) {
             res.status(201).json({
-                message: 'خرید انجام شد',
+                message: 'خرید انجام شد در انتظار تایید باشید',
                 data: result
             });
         } else {
